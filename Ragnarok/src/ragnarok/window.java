@@ -10,7 +10,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -21,8 +25,18 @@ import javax.swing.Timer;
 public class window extends JPanel implements ActionListener {
 
     private Timer timer;
-    private player craft;
+    private player player1;
+    
+    private BufferedImage image;
 
+    public void ImagePanel() {
+       try {                
+          image = ImageIO.read(new File("src\\ragnarok\\backgroundPic.jpg"));
+       } catch (IOException ex) {
+            
+       }
+    }
+    
     public window() {
 
         addKeyListener(new TAdapter());
@@ -30,44 +44,51 @@ public class window extends JPanel implements ActionListener {
         setBackground(Color.BLACK);
         setDoubleBuffered(true);
 
-        craft = new player();
+        player1 = new player();
 
         timer = new Timer(5, this);
         timer.start();
+        ImagePanel();
     }
 
 
     public void paint(Graphics g) {
             super.paint(g);
-
             Graphics2D g2d = (Graphics2D)g;
 
-            g2d.drawImage(craft.getImage(), craft.getX(), craft.getY(), this);
-
-            ArrayList ms = craft.getMissiles();
-
+            g.drawImage(image, 0, 0, null);
+            g2d.drawImage(player1.getImage(), player1.getX(), player1.getY(), this);
+            
+            ArrayList ms = player1.getMissiles();
             for (int i = 0; i < ms.size(); i++ ) {
                 axe m = (axe) ms.get(i);
                 g2d.drawImage(m.getImage(), m.getX(), m.getY(), this);
             }
-
             Toolkit.getDefaultToolkit().sync();
             g.dispose();
-        
     }
 
 
     public void actionPerformed(ActionEvent e) {
-        ArrayList ms = craft.getMissiles();
-
+        ArrayList ms = player1.getMissiles();
+        ArrayList msd = player1.getMissilesDirections();
+        
         for (int i = 0; i < ms.size(); i++) {
             axe m = (axe) ms.get(i);
-            if (m.isVisible()) 
-                m.move();
-            else ms.remove(i);
+            if(m.isVisible() && msd.get(i).equals("left")){
+                m.moveLeft();
+            }else if(m.isVisible() && msd.get(i).equals("right")){
+                m.moveRight();
+            }else if(m.isVisible() && msd.get(i).equals("up")){
+                m.moveUp();
+            }else if(m.isVisible() && msd.get(i).equals("down")){
+                m.moveDown();
+            }else{
+                ms.remove(i);
+            }
         }
 
-        craft.move();
+        player1.move();
         repaint();  
     }
 
@@ -75,11 +96,11 @@ public class window extends JPanel implements ActionListener {
     private class TAdapter extends KeyAdapter {
 
         public void keyReleased(KeyEvent e) {
-            craft.keyReleased(e);
+            player1.keyReleased(e);
         }
 
         public void keyPressed(KeyEvent e) {
-            craft.keyPressed(e);
+            player1.keyPressed(e);
         }
     }
 

@@ -16,6 +16,7 @@ public class axe {
     boolean visible;
 
     private final int BOARD_WIDTH = 850;
+    private final int BOARD_HEIGHT = 950;
     private final int MISSILE_SPEED = 2;
 
     public axe(int x, int y) {
@@ -45,9 +46,27 @@ public class axe {
         return visible;
     }
 
-    public void move() {
-        x += MISSILE_SPEED;
+    public void moveUp() {
+        y -= MISSILE_SPEED;
+        if (x < 0)
+            visible = false;
+    }
+    
+    public void moveDown() {
+        y += MISSILE_SPEED;
+        if (x > BOARD_HEIGHT)
+            visible = false;
+    }
+    
+    public void moveLeft() {
+        x -= MISSILE_SPEED;
         if (x > BOARD_WIDTH)
+            visible = false;
+    }
+    
+    public void moveRight() {
+        x += MISSILE_SPEED;
+        if (x < 0)
             visible = false;
     }
 }
