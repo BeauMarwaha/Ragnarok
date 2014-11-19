@@ -90,7 +90,7 @@ public class player {
         }
 
         if (key == KeyEvent.VK_D) {
-            if(x < 500){
+            if(x < 900){
                 dx = 1;
             }else{
                 dx = 0;
@@ -106,7 +106,7 @@ public class player {
         }
 
         if (key == KeyEvent.VK_S) {
-            if(y < 500){
+            if(y < 700){
                 dy = 1;
             }else{
                 dy = 0;

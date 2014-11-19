@@ -41,6 +41,14 @@ public class axe {
     public int getY() {
         return y;
     }
+    
+    public int getImgW() {
+        return image.getWidth(null);
+    }
+
+    public int getImgH() {
+        return image.getHeight(null);
+    }
 
     public boolean isVisible() {
         return visible;

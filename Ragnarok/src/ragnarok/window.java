@@ -26,6 +26,7 @@ public class window extends JPanel implements ActionListener {
 
     private Timer timer;
     private player player1;
+    private enemy enemy1;
     
     private BufferedImage image;
 
@@ -45,8 +46,9 @@ public class window extends JPanel implements ActionListener {
         setDoubleBuffered(true);
 
         player1 = new player();
+        enemy1 = new enemy();
 
-        timer = new Timer(5, this);
+        timer = new Timer(1, this);
         timer.start();
         ImagePanel();
     }
@@ -58,6 +60,7 @@ public class window extends JPanel implements ActionListener {
 
             g.drawImage(image, 0, 0, null);
             g2d.drawImage(player1.getImage(), player1.getX(), player1.getY(), this);
+            setEnemies(g2d);
             
             ArrayList ms = player1.getMissiles();
             for (int i = 0; i < ms.size(); i++ ) {
@@ -66,6 +69,7 @@ public class window extends JPanel implements ActionListener {
             }
             Toolkit.getDefaultToolkit().sync();
             g.dispose();
+            
     }
 
 
@@ -86,8 +90,14 @@ public class window extends JPanel implements ActionListener {
             }else{
                 ms.remove(i);
             }
+            
+            if(((m.getX()+(m.getImgW()/2)) > (enemy1.getX()-(enemy1.getImgW()/2)) && (m.getX()-(m.getImgW()/2)) < (enemy1.getX()+(enemy1.getImgW()/2))) && 
+                    ((m.getY()+(m.getImgH()/2)) > (enemy1.getY()-(enemy1.getImgH()/2)) && (m.getY()-(m.getImgH()/2)) < (enemy1.getY()+(enemy1.getImgH()/2)))){
+                System.out.println("Hit");
+                ms.remove(i);
+                msd.remove(i);
+            }
         }
-
         player1.move();
         repaint();  
     }
@@ -103,5 +113,8 @@ public class window extends JPanel implements ActionListener {
             player1.keyPressed(e);
         }
     }
-
+    
+    public void setEnemies(Graphics2D g2d){
+        g2d.drawImage(enemy1.getImage(), enemy1.getX(), enemy1.getY(), this);
+    }
 }
