@@ -14,30 +14,46 @@ public class enemy {
     
     Random gen = new Random();
     
-    private int dx;
-    private int dy;
-    private int x;
-    private int y;
+    private double dx;
+    private double dy;
+    private double x;
+    private double y;
+    private int health;
+    private boolean dead;
     private Image image;
 
-    public enemy() {
+    public enemy(int health) {
         ImageIcon ii = new ImageIcon(this.getClass().getResource(craft));
         image = ii.getImage();
         x = 600;
         y = gen.nextInt(650);
+        this.health = health;
+        dead = false;
     }
 
 
-    public void move() {
-        x += dx;
-        y += dy;
+    public void move(int playerX, int playerY) {
+        if(!dead){
+            if(playerX > x){
+                dx = .3;
+            }else if(playerX < x){
+                dx = -.3;
+            }
+            if(playerY > y){
+                dy = .3;
+            }else if(playerY < y){
+                dy = -.3;
+            }
+            x += dx;
+            y += dy;
+        }
     }
 
-    public int getX() {
+    public double getX() {
         return x;
     }
 
-    public int getY() {
+    public double getY() {
         return y;
     }
     
@@ -48,65 +64,21 @@ public class enemy {
     public int getImgH() {
         return image.getHeight(null);
     }
+    
+    public int getHealth(){
+        return health;
+    }
 
     public Image getImage() {
         return image;
     }
-
-//    public void keyPressed(KeyEvent e) {
-//
-//        int key = e.getKeyCode();
-//
-//        if (key == KeyEvent.VK_A) {
-//            if(x > 0){
-//                dx = -1;
-//            }else{
-//                dx = 0;
-//            }
-//        }
-//
-//        if (key == KeyEvent.VK_D) {
-//            if(x < 500){
-//                dx = 1;
-//            }else{
-//                dx = 0;
-//            }
-//        }
-//
-//        if (key == KeyEvent.VK_W) {
-//            if(y > 0){
-//                dy = -1;
-//            }else{
-//                dy = 0;
-//            }
-//        }
-//
-//        if (key == KeyEvent.VK_S) {
-//            if(y < 500){
-//                dy = 1;
-//            }else{
-//                dy = 0;
-//            }
-//        }
-//    }
-//
-//    public void keyReleased(KeyEvent e) {
-//        int key = e.getKeyCode();
-//
-//        if (key == KeyEvent.VK_A) {
-//            dx = 0;
-//        }
-//
-//        if (key == KeyEvent.VK_D) {
-//            dx = 0;
-//        }
-//
-//        if (key == KeyEvent.VK_W) {
-//            dy = 0;
-//        }
-//
-//        if (key == KeyEvent.VK_S) {
-//            dy = 0;
-//        }
-//    }
+    
+    public void hit(int damage){
+        health -= damage;
+        if(health <= 0){
+            dead = true;
+            x = 5000;
+            y = 5000;
+        }
+    }
 }

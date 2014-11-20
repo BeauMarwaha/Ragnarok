@@ -19,6 +19,8 @@ public class player {
     private int dy;
     private int x;
     private int y;
+    private int health;
+    private boolean dead;
     private Image image;
 
     private ArrayList missiles;
@@ -26,13 +28,15 @@ public class player {
     
     private final int CRAFT_SIZE = 20;
 
-    public player() {
+    public player(int health) {
         ImageIcon ii = new ImageIcon(this.getClass().getResource(craft));
         image = ii.getImage();
         missiles = new ArrayList();
         missilesDirections = new ArrayList();
         x = 40;
         y = 60;
+        this.health = health;
+        dead = false;
     }
 
 
@@ -47,6 +51,25 @@ public class player {
 
     public int getY() {
         return y;
+    }
+    
+    public int getImgW() {
+        return image.getWidth(null);
+    }
+
+    public int getImgH() {
+        return image.getHeight(null);
+    }
+    
+    public int getHealth(){
+        return health;
+    }
+    
+    public void hit(int damage){
+        health -= damage;
+        if(health <= 0){
+            dead = true;
+        }
     }
 
     public Image getImage() {

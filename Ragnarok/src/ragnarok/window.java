@@ -45,8 +45,8 @@ public class window extends JPanel implements ActionListener {
         setBackground(Color.BLACK);
         setDoubleBuffered(true);
 
-        player1 = new player();
-        enemy1 = new enemy();
+        player1 = new player(5);
+        enemy1 = new enemy(5);
 
         timer = new Timer(1, this);
         timer.start();
@@ -89,16 +89,29 @@ public class window extends JPanel implements ActionListener {
                 m.moveDown();
             }else{
                 ms.remove(i);
+                msd.remove(i);
             }
             
             if(((m.getX()+(m.getImgW()/2)) > (enemy1.getX()-(enemy1.getImgW()/2)) && (m.getX()-(m.getImgW()/2)) < (enemy1.getX()+(enemy1.getImgW()/2))) && 
                     ((m.getY()+(m.getImgH()/2)) > (enemy1.getY()-(enemy1.getImgH()/2)) && (m.getY()-(m.getImgH()/2)) < (enemy1.getY()+(enemy1.getImgH()/2)))){
-                System.out.println("Hit");
+                enemy1.hit(1);
+                if(enemy1.getHealth() <= 0){
+                    System.out.println("Dead");
+                }
                 ms.remove(i);
                 msd.remove(i);
             }
         }
+        if(((player1.getX()+(player1.getImgW()/2)) > (enemy1.getX()-(enemy1.getImgW()/2)) && (player1.getX()-(player1.getImgW()/2)) < (enemy1.getX()+(enemy1.getImgW()/2))) && 
+                    ((player1.getY()+(player1.getImgH()/2)) > (enemy1.getY()-(enemy1.getImgH()/2)) && (player1.getY()-(player1.getImgH()/2)) < (enemy1.getY()+(enemy1.getImgH()/2)))){
+                player1.hit(1);
+                if(player1.getHealth() <= 0){
+                    System.out.println("Player Dead");
+                }
+        }
+        
         player1.move();
+        enemy1.move(player1.getX(), player1.getY());
         repaint();  
     }
 
@@ -115,6 +128,6 @@ public class window extends JPanel implements ActionListener {
     }
     
     public void setEnemies(Graphics2D g2d){
-        g2d.drawImage(enemy1.getImage(), enemy1.getX(), enemy1.getY(), this);
+        g2d.drawImage(enemy1.getImage(), (int)Math.round(enemy1.getX()), (int)Math.round(enemy1.getY()), this);
     }
 }
