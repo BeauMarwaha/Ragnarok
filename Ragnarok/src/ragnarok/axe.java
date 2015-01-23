@@ -21,8 +21,7 @@ public class axe {
 
     public axe(int x, int y) {
 
-        ImageIcon ii =
-            new ImageIcon(this.getClass().getResource("missile.jpg"));
+        ImageIcon ii = new ImageIcon(this.getClass().getResource("axespin.gif"));
         image = ii.getImage();
         visible = true;
         this.x = x;

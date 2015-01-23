@@ -30,7 +30,7 @@ public class window extends JPanel implements ActionListener {
 
     public void ImagePanel() {
        try {                
-          image = ImageIO.read(new File("src\\ragnarok\\grassBack.jpg"));
+          image = ImageIO.read(new File("src\\ragnarok\\back1.png"));
        } catch (IOException ex) {
             
        }
