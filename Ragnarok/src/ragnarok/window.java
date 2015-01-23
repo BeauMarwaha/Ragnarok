@@ -1,4 +1,3 @@
-
 package ragnarok;
 
 import java.awt.Color;
@@ -9,7 +8,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -32,7 +30,7 @@ public class window extends JPanel implements ActionListener {
 
     public void ImagePanel() {
        try {                
-          image = ImageIO.read(new File("src\\ragnarok\\backgroundPic.jpg"));
+          image = ImageIO.read(new File("src\\ragnarok\\grassBack.jpg"));
        } catch (IOException ex) {
             
        }
