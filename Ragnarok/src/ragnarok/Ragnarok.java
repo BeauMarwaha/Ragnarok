@@ -5,6 +5,14 @@ package ragnarok;
  *
  * @author Beau Marwaha
  */
+
+/*
+ * TO DO:
+ * enemy track on player pos
+ * character movement off screen warp back
+ * enemy art
+ * axe to hammer weapon art
+ */
 import javax.swing.JFrame;
 
 public class Ragnarok extends JFrame {

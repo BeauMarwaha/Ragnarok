@@ -13,7 +13,7 @@ import javax.swing.ImageIcon;
 
 public class player {
 
-    private String craft = "viking_Sprites/walkingS.gif";
+    private String craft = "viking_Sprites/swing.gif";
 
     private int dx;
     private int dy;
@@ -25,8 +25,6 @@ public class player {
 
     private ArrayList missiles;
     private ArrayList missilesDirections;
-    
-    private final int CRAFT_SIZE = 20;
 
     public player(int health) {
         ImageIcon ii = new ImageIcon(this.getClass().getResource(craft));
@@ -138,22 +136,22 @@ public class player {
     }
 
     public void fireUp() {
-        missiles.add(new axe(x + CRAFT_SIZE, y + CRAFT_SIZE/2));
+        missiles.add(new axe(x + image.getWidth(null)/3, y + image.getHeight(null)/100));
         missilesDirections.add(new String("up"));
     }
     
     public void fireDown() {
-        missiles.add(new axe(x + CRAFT_SIZE, y + CRAFT_SIZE/2));
+        missiles.add(new axe(x + image.getWidth(null)/3, y + image.getHeight(null)/2));
         missilesDirections.add(new String("down"));
     }
     
     public void fireLeft() {
-        missiles.add(new axe(x + CRAFT_SIZE, y + CRAFT_SIZE/2));
+        missiles.add(new axe(x - image.getWidth(null)/100, y + image.getHeight(null)/4));
         missilesDirections.add(new String("left"));
     }
     
     public void fireRight() {
-        missiles.add(new axe(x + CRAFT_SIZE, y + CRAFT_SIZE/2));
+        missiles.add(new axe(x + image.getWidth(null)/2, y + image.getHeight(null)/4));
         missilesDirections.add(new String("right"));
     }
 
