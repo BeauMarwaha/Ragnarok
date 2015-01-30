@@ -13,7 +13,7 @@ import javax.swing.ImageIcon;
 
 public class player {
 
-    private String craft = "viking_Sprites/swing.gif";
+    private String craft = "viking_Sprites/walking.gif";
 
     private int dx;
     private int dy;
