@@ -10,7 +10,7 @@ import javax.swing.ImageIcon;
  * @author Beau Marwaha
  */
 public class enemy {
-    private String craft = "enemy_Sprites/goblin/attackGob.gif";
+    private String craft = "enemy_Sprites/goblin/walkGob.gif";
     
     Random gen = new Random();
     
