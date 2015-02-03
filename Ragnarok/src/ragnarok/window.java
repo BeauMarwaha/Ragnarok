@@ -24,7 +24,7 @@ public class window extends JPanel implements ActionListener {
 
     private Timer timer;
     private player player1;
-    private enemy enemy1;
+    private enemy[] enemyReal = new enemy[3];
     
     private BufferedImage image;
 
@@ -44,8 +44,10 @@ public class window extends JPanel implements ActionListener {
         setDoubleBuffered(true);
 
         player1 = new player(5);
-        enemy1 = new enemy(5);
-
+        for (int i = 0; i < 3; i++){
+            enemyReal[i] = new enemy(5);
+        }
+        
         timer = new Timer(1, this);
         timer.start();
         ImagePanel();
@@ -90,26 +92,38 @@ public class window extends JPanel implements ActionListener {
                 msd.remove(i);
             }
             
-            if(((m.getX()+(m.getImgW()/2)) > (enemy1.getX()-(enemy1.getImgW()/2)) && (m.getX()-(m.getImgW()/2)) < (enemy1.getX()+(enemy1.getImgW()/2))) && 
-                    ((m.getY()+(m.getImgH()/2)) > (enemy1.getY()-(enemy1.getImgH()/2)) && (m.getY()-(m.getImgH()/2)) < (enemy1.getY()+(enemy1.getImgH()/2)))){
-                enemy1.hit(1);
-                if(enemy1.getHealth() <= 0){
-                    System.out.println("Dead");
+            for (int j = 0; j < 3; j++){
+                if(((m.getX()+(m.getImgW()/2)) > (enemyReal[j].getX()-(10/2)) && (m.getX()-(m.getImgW()/2)) < (enemyReal[j].getX()+(150/2))) && 
+                        ((m.getY()+(m.getImgH()/2)) > (enemyReal[j].getY()-(100/2)) && (m.getY()-(m.getImgH()/2)) < (enemyReal[j].getY()+(100/2)))){
+                    enemyReal[j].hit(1);
+                    System.out.println("w " + enemyReal[j].getImgW());
+                    System.out.println("h " + enemyReal[j].getImgH());
+                    if(enemyReal[j].getHealth() <= 0){
+                        System.out.println("Dead");
+                    }
+                    if (ms.size() > 1){//***********************************************fix this check if hitting mult enemies
+                        ms.remove(i);
+                        msd.remove(i);
+                    }
                 }
-                ms.remove(i);
-                msd.remove(i);
             }
+            
         }
-        if(((player1.getX()+(player1.getImgW()/2)) > (enemy1.getX()-(enemy1.getImgW()/2)) && (player1.getX()-(player1.getImgW()/2)) < (enemy1.getX()+(enemy1.getImgW()/2))) && 
-                    ((player1.getY()+(player1.getImgH()/2)) > (enemy1.getY()-(enemy1.getImgH()/2)) && (player1.getY()-(player1.getImgH()/2)) < (enemy1.getY()+(enemy1.getImgH()/2)))){
+        for (int i = 0; i < 3; i++){
+            if(((player1.getX()+(player1.getImgW()/2)) > (enemyReal[i].getX()-(10/2)) && (player1.getX()-(player1.getImgW()/2)) < (enemyReal[i].getX()+(150/2))) && 
+            ((player1.getY()+(player1.getImgH()/2)) > (enemyReal[i].getY()-(100/2)) && (player1.getY()-(player1.getImgH()/2)) < (enemyReal[i].getY()+(100/2)))){
                 player1.hit(1);
                 if(player1.getHealth() <= 0){
                     System.out.println("Player Dead");
                 }
+            }
         }
         
+        
         player1.move();
-        enemy1.move(player1.getX(), player1.getY());
+        for (int i = 0; i < 3; i++){
+             enemyReal[i].move(player1.getX(), player1.getY());
+        }
         repaint();  
     }
 
@@ -126,6 +140,9 @@ public class window extends JPanel implements ActionListener {
     }
     
     public void setEnemies(Graphics2D g2d){
-        g2d.drawImage(enemy1.getImage(), (int)Math.round(enemy1.getX()), (int)Math.round(enemy1.getY()), this);
+        for (int i = 0; i < 3; i++){
+             g2d.drawImage(enemyReal[i].getImage(), (int)Math.round(enemyReal[i].getX()), (int)Math.round(enemyReal[i].getY()), this);
+        }
+        
     }
 }
