@@ -51,6 +51,22 @@ public class player {
         return y;
     }
     
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+    
+    public void setdx(int dx) {
+        this.dx = dx;
+    }
+
+    public void setdy(int dy) {
+        this.dy = dy;
+    }
+    
     public int getImgW() {
         return image.getWidth(null);
     }
@@ -101,38 +117,42 @@ public class player {
         if(key == KeyEvent.VK_DOWN){
             fireDown();
         }
-
-        if (key == KeyEvent.VK_A) {
-            if(x > 0){
-                dx = -1;
-            }else{
-                dx = 0;
-            }
-        }
-
+//
+//        if (key == KeyEvent.VK_A) {
+//            if(x > 0){
+//                dx = -1;
+//            }else{
+//                x = 0;
+//                dx = 0;
+//            }
+//        }
+//
         if (key == KeyEvent.VK_D) {
             if(x < 900){
                 dx = 1;
             }else{
+                x = 800;
                 dx = 0;
             }
         }
-
-        if (key == KeyEvent.VK_W) {
-            if(y > 0){
-                dy = -1;
-            }else{
-                dy = 0;
-            }
-        }
-
-        if (key == KeyEvent.VK_S) {
-            if(y < 700){
-                dy = 1;
-            }else{
-                dy = 0;
-            }
-        }
+//
+//        if (key == KeyEvent.VK_W) {
+//            if(y > 0){
+//                dy = -1;
+//            }else{
+//                y = 0;
+//                dy = 0;
+//            }
+//        }
+//
+//        if (key == KeyEvent.VK_S) {
+//            if(y < 700){
+//                dy = 1;
+//            }else{
+//                y = 570;
+//                dy = 0;
+//            }
+//        }
     }
 
     public void fireUp() {

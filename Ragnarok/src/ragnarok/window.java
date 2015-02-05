@@ -13,7 +13,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
+import javax.swing.AbstractAction;
+import javax.swing.ActionMap;
+import javax.swing.InputMap;
 import javax.swing.JPanel;
+import javax.swing.KeyStroke;
 import javax.swing.Timer;
 
 /**
@@ -37,7 +41,7 @@ public class window extends JPanel implements ActionListener {
     }
     
     public window() {
-
+        
         addKeyListener(new TAdapter());
         setFocusable(true);
         setBackground(Color.BLACK);
@@ -48,9 +52,126 @@ public class window extends JPanel implements ActionListener {
             enemyReal[i] = new enemy(5);
         }
         
-        timer = new Timer(1, this);
+        timer = new Timer(0, this);
         timer.start();
         ImagePanel();
+        
+        InputMap im = getInputMap(WHEN_IN_FOCUSED_WINDOW);
+        ActionMap am = getActionMap();
+
+        // Key controls...
+        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_W, 0, false), "upPressed");
+        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_S, 0, false), "downPressed");
+        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_A, 0, false), "leftPressed");
+//        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_D, 0, false), "rightPressed");
+        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_W, 0, true), "upReleased");
+        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_S, 0, true), "downReleased");
+        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_A, 0, true), "leftReleased");
+//        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_D, 0, true), "rightReleased");
+
+        am.put("upPressed", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(player1.getY() > 0){
+                    player1.setdy(-2);
+                }else{
+                    player1.setY(0);
+                    player1.setdy(0);
+                }
+            }
+
+        });
+        
+        am.put("upReleased", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(player1.getY() > 0){
+                    player1.setdy(0);
+                }else{
+                    player1.setY(0);
+                    player1.setdy(0);
+                }
+            }
+
+        });
+        
+        am.put("downPressed", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(player1.getY() < 700){
+                    player1.setdy(2);
+                }else{
+                    player1.setY(570);
+                    player1.setdy(0);
+                }
+            }
+
+        });
+        
+        am.put("downReleased", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(player1.getY() < 700){
+                    player1.setdy(0);
+                }else{
+                    player1.setY(570);
+                    player1.setdy(0);
+                }
+            }
+
+        });
+        
+        am.put("leftPressed", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(player1.getX() > 0){
+                    player1.setdx(-2);
+                }else{
+                    player1.setX(0);
+                    player1.setdx(0);
+                }
+            }
+
+        });
+        
+        am.put("leftReleased", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(player1.getX() > 0){
+                    player1.setdx(0);
+                }else{
+                    player1.setX(0);
+                    player1.setdx(0);
+                }
+            }
+
+        });
+        
+//        am.put("rightPressed", new AbstractAction() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                if(player1.getX() < 900){
+//                    player1.setdx(2);
+//                }else{
+//                    player1.setX(800);
+//                    player1.setdx(0);
+//                }
+//            }
+//
+//        });
+//        
+//        am.put("rightReleased", new AbstractAction() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                if(player1.getX() < 900){
+//                    player1.setdx(0);
+//                }else{
+//                    player1.setX(800);
+//                    player1.setdx(0);
+//                }
+//            }
+//
+//        });
     }
 
 
@@ -101,7 +222,7 @@ public class window extends JPanel implements ActionListener {
                     if(enemyReal[j].getHealth() <= 0){
                         System.out.println("Dead");
                     }
-                    if (ms.size() > 1){//***********************************************fix this check if hitting mult enemies
+                    if (!ms.isEmpty()){
                         ms.remove(i);
                         msd.remove(i);
                     }
@@ -126,14 +247,13 @@ public class window extends JPanel implements ActionListener {
         }
         repaint();  
     }
-
-
+    
     private class TAdapter extends KeyAdapter {
 
         public void keyReleased(KeyEvent e) {
             player1.keyReleased(e);
         }
-
+        
         public void keyPressed(KeyEvent e) {
             player1.keyPressed(e);
         }

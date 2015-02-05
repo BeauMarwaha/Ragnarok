@@ -9,7 +9,6 @@ package ragnarok;
  * TO DO:
  * enemy track on player pos
  * character movement off screen warp back
- * axe hitting multiple enemies at the same time bug
  * collision detection between enemies and player
  */
 import javax.swing.JFrame;
