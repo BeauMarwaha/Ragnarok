@@ -56,97 +56,103 @@ public class window extends JPanel implements ActionListener {
         timer.start();
         ImagePanel();
         
-        InputMap im = getInputMap(WHEN_IN_FOCUSED_WINDOW);
-        ActionMap am = getActionMap();
+//        InputMap im = getInputMap(WHEN_IN_FOCUSED_WINDOW);
+//        ActionMap am = getActionMap();
 
         // Key controls...
-        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_W, 0, false), "upPressed");
-        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_S, 0, false), "downPressed");
-        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_A, 0, false), "leftPressed");
+//        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_W, 0, false), "upPressed");
+//        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_S, 0, false), "downPressed");
+//        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_A, 0, false), "leftPressed");
 //        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_D, 0, false), "rightPressed");
-        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_W, 0, true), "upReleased");
-        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_S, 0, true), "downReleased");
-        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_A, 0, true), "leftReleased");
+//        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_W, 0, true), "upReleased");
+//        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_S, 0, true), "downReleased");
+//        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_A, 0, true), "leftReleased");
 //        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_D, 0, true), "rightReleased");
-
-        am.put("upPressed", new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(player1.getY() > 0){
-                    player1.setdy(-2);
-                }else{
-                    player1.setY(0);
-                    player1.setdy(0);
-                }
-            }
-
-        });
         
-        am.put("upReleased", new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(player1.getY() > 0){
-                    player1.setdy(0);
-                }else{
-                    player1.setY(0);
-                    player1.setdy(0);
-                }
-            }
+//        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0, false), "upFirePressed");
+//        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0, false), "downFirePressed");
+//        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0, false), "leftFirePressed");
+//        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0, false), "rightFirePressed");
 
-        });
-        
-        am.put("downPressed", new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(player1.getY() < 700){
-                    player1.setdy(2);
-                }else{
-                    player1.setY(570);
-                    player1.setdy(0);
-                }
-            }
-
-        });
-        
-        am.put("downReleased", new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(player1.getY() < 700){
-                    player1.setdy(0);
-                }else{
-                    player1.setY(570);
-                    player1.setdy(0);
-                }
-            }
-
-        });
-        
-        am.put("leftPressed", new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(player1.getX() > 0){
-                    player1.setdx(-2);
-                }else{
-                    player1.setX(0);
-                    player1.setdx(0);
-                }
-            }
-
-        });
-        
-        am.put("leftReleased", new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(player1.getX() > 0){
-                    player1.setdx(0);
-                }else{
-                    player1.setX(0);
-                    player1.setdx(0);
-                }
-            }
-
-        });
-        
+//        am.put("upPressed", new AbstractAction() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                if(player1.getY() > 0){
+//                    player1.setdy(-2);
+//                }else{
+//                    player1.setY(0);
+//                    player1.setdy(0);
+//                }
+//            }
+//
+//        });
+//        
+//        am.put("upReleased", new AbstractAction() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                if(player1.getY() > 0){
+//                    player1.setdy(0);
+//                }else{
+//                    player1.setY(0);
+//                    player1.setdy(0);
+//                }
+//            }
+//
+//        });
+//        
+//        am.put("downPressed", new AbstractAction() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                if(player1.getY() < 700){
+//                    player1.setdy(2);
+//                }else{
+//                    player1.setY(570);
+//                    player1.setdy(0);
+//                }
+//            }
+//
+//        });
+//        
+//        am.put("downReleased", new AbstractAction() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                if(player1.getY() < 700){
+//                    player1.setdy(0);
+//                }else{
+//                    player1.setY(570);
+//                    player1.setdy(0);
+//                }
+//            }
+//
+//        });
+//        
+//        am.put("leftPressed", new AbstractAction() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                if(player1.getX() > 0){
+//                    player1.setdx(-2);
+//                }else{
+//                    player1.setX(0);
+//                    player1.setdx(0);
+//                }
+//                player1.setImage("viking_Sprites/walkingB.gif");
+//            }
+//
+//        });
+//        
+//        am.put("leftReleased", new AbstractAction() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                if(player1.getX() > 0){
+//                    player1.setdx(0);
+//                }else{
+//                    player1.setX(0);
+//                    player1.setdx(0);
+//                }
+//            }
+//
+//        });
+//        
 //        am.put("rightPressed", new AbstractAction() {
 //            @Override
 //            public void actionPerformed(ActionEvent e) {
@@ -156,6 +162,7 @@ public class window extends JPanel implements ActionListener {
 //                    player1.setX(800);
 //                    player1.setdx(0);
 //                }
+//                player1.setImage("viking_Sprites/walking.gif");
 //            }
 //
 //        });
@@ -169,6 +176,14 @@ public class window extends JPanel implements ActionListener {
 //                    player1.setX(800);
 //                    player1.setdx(0);
 //                }
+//            }
+//
+//        });
+        
+//        am.put("upFireReleased", new AbstractAction() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                player1.fireUp();
 //            }
 //
 //        });
@@ -208,9 +223,6 @@ public class window extends JPanel implements ActionListener {
                 m.moveUp();
             }else if(m.isVisible() && msd.get(i).equals("down")){
                 m.moveDown();
-            }else{
-                ms.remove(i);
-                msd.remove(i);
             }
             
             for (int j = 0; j < 3; j++){
@@ -250,10 +262,12 @@ public class window extends JPanel implements ActionListener {
     
     private class TAdapter extends KeyAdapter {
 
+        @Override
         public void keyReleased(KeyEvent e) {
             player1.keyReleased(e);
         }
         
+        @Override
         public void keyPressed(KeyEvent e) {
             player1.keyPressed(e);
         }

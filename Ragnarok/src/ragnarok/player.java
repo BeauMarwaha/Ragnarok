@@ -9,11 +9,13 @@ import java.awt.Image;
 import java.awt.event.KeyEvent;
 
 import java.util.ArrayList;
+import javax.swing.AbstractButton;
 import javax.swing.ImageIcon;
+import javax.swing.SwingWorker;
 
 public class player {
 
-    private String craft = "viking_Sprites/walking.gif";
+    private String walkL = "viking_Sprites/walking.gif";
 
     private int dx;
     private int dy;
@@ -22,12 +24,15 @@ public class player {
     private int health;
     private boolean dead;
     private Image image;
+    
+    private int fireRate = 360;
+    private int n = 2;
 
     private ArrayList missiles;
     private ArrayList missilesDirections;
 
     public player(int health) {
-        ImageIcon ii = new ImageIcon(this.getClass().getResource(craft));
+        ImageIcon ii = new ImageIcon(this.getClass().getResource(walkL));
         image = ii.getImage();
         missiles = new ArrayList();
         missilesDirections = new ArrayList();
@@ -36,7 +41,15 @@ public class player {
         this.health = health;
         dead = false;
     }
-
+    
+    public void setImage(String x) {
+        ImageIcon ii = new ImageIcon(this.getClass().getResource(x));
+        image = ii.getImage();
+    }
+    
+    public void setImageReal(Image i) {
+        image = i;
+    }
 
     public void move() {
         x += dx;
@@ -99,34 +112,70 @@ public class player {
     }
 
     public void keyPressed(KeyEvent e) {
-
         int key = e.getKeyCode();
+        
+        if (n == 2){
+            n=1;
+            if (key == KeyEvent.VK_LEFT) {
+                final Image pic = image;
+                fireLeft();
+                setImage("viking_Sprites/swingB.gif");
+                new SwingWorker() {
+                    @Override protected Object doInBackground() throws Exception {
+                        Thread.sleep(360);
+                        return null;
+                    }
+                    @Override protected void done() {
+                        setImageReal(pic);
+                    }
+                }.execute();
+            }
 
-        if (key == KeyEvent.VK_LEFT) {
-            fireLeft();
+            if(key == KeyEvent.VK_RIGHT){
+                final Image pic = image;
+                fireRight();
+                setImage("viking_Sprites/swing.gif");
+                new SwingWorker() {
+                    @Override protected Object doInBackground() throws Exception {
+                        Thread.sleep(360);
+                        return null;
+                    }
+                    @Override protected void done() {
+                        setImageReal(pic);
+                    }
+                }.execute();
+            }
+
+            if(key == KeyEvent.VK_UP){
+                fireUp();
+            }
+
+            if(key == KeyEvent.VK_DOWN){
+                fireDown();
+            }
+            
+            new SwingWorker() {
+                @Override protected Object doInBackground() throws Exception {
+                    Thread.sleep(fireRate);
+                    return null;
+                }
+                @Override protected void done() {
+                    n=2;
+                }
+            }.execute();
         }
         
-        if(key == KeyEvent.VK_RIGHT){
-            fireRight();
+
+        if (key == KeyEvent.VK_A) {
+            if(x > 0){
+                dx = -1;
+            }else{
+                x = 0;
+                dx = 0;
+            }
+            setImage("viking_Sprites/walkingB.gif");
         }
-        
-        if(key == KeyEvent.VK_UP){
-            fireUp();
-        }
-        
-        if(key == KeyEvent.VK_DOWN){
-            fireDown();
-        }
-//
-//        if (key == KeyEvent.VK_A) {
-//            if(x > 0){
-//                dx = -1;
-//            }else{
-//                x = 0;
-//                dx = 0;
-//            }
-//        }
-//
+
         if (key == KeyEvent.VK_D) {
             if(x < 900){
                 dx = 1;
@@ -134,25 +183,26 @@ public class player {
                 x = 800;
                 dx = 0;
             }
+            setImage("viking_Sprites/walking.gif");
         }
-//
-//        if (key == KeyEvent.VK_W) {
-//            if(y > 0){
-//                dy = -1;
-//            }else{
-//                y = 0;
-//                dy = 0;
-//            }
-//        }
-//
-//        if (key == KeyEvent.VK_S) {
-//            if(y < 700){
-//                dy = 1;
-//            }else{
-//                y = 570;
-//                dy = 0;
-//            }
-//        }
+
+        if (key == KeyEvent.VK_W) {
+            if(y > 0){
+                dy = -1;
+            }else{
+                y = 0;
+                dy = 0;
+            }
+        }
+
+        if (key == KeyEvent.VK_S) {
+            if(y < 700){
+                dy = 1;
+            }else{
+                y = 570;
+                dy = 0;
+            }
+        }
     }
 
     public void fireUp() {
@@ -166,13 +216,29 @@ public class player {
     }
     
     public void fireLeft() {
-        missiles.add(new axe(x - image.getWidth(null)/100, y + image.getHeight(null)/4));
-        missilesDirections.add(new String("left"));
+        new SwingWorker() {
+            @Override protected Object doInBackground() throws Exception {
+                Thread.sleep(165);
+                return null;
+            }
+            @Override protected void done() {
+                missiles.add(new axe(x - image.getWidth(null)/100, y + image.getHeight(null)/4));
+                missilesDirections.add(new String("left"));
+            }
+        }.execute();
     }
     
     public void fireRight() {
-        missiles.add(new axe(x + image.getWidth(null)/2, y + image.getHeight(null)/4));
-        missilesDirections.add(new String("right"));
+        new SwingWorker() {
+            @Override protected Object doInBackground() throws Exception {
+                Thread.sleep(165);
+                return null;
+            }
+            @Override protected void done() {
+                missiles.add(new axe(x + image.getWidth(null)/2, y + image.getHeight(null)/4));
+                missilesDirections.add(new String("right"));
+            }
+        }.execute();
     }
 
     public void keyReleased(KeyEvent e) {

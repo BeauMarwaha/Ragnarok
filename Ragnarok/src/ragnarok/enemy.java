@@ -10,7 +10,10 @@ import javax.swing.ImageIcon;
  * @author Beau Marwaha
  */
 public class enemy {
-    private String craft = "enemy_Sprites/goblin/walkGob.gif";
+    private String walkL = "enemy_Sprites/goblin/walkGob.gif";
+    private String walkR = "enemy_Sprites/goblin/walkGob.gif";
+    private String attackL = "enemy_Sprites/goblin/walkGob.gif";
+    private String attackR = "enemy_Sprites/goblin/walkGob.gif";
     
     Random gen = new Random();
     
@@ -23,7 +26,7 @@ public class enemy {
     private Image image;
 
     public enemy(int health) {
-        ImageIcon ii = new ImageIcon(this.getClass().getResource(craft));
+        ImageIcon ii = new ImageIcon(this.getClass().getResource(walkL));
         image = ii.getImage();
         x = 600;
         y = gen.nextInt(650);
