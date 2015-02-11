@@ -31,6 +31,8 @@ public class window extends JPanel implements ActionListener {
     private enemy[] enemyReal = new enemy[3];
     
     private BufferedImage image;
+    
+    int z = 0;
 
     public void ImagePanel() {
        try {                
@@ -225,7 +227,7 @@ public class window extends JPanel implements ActionListener {
                 m.moveDown();
             }
             
-            for (int j = 0; j < 3; j++){
+            hitCheck: for (int j = 0; j < 3; j++){
                 if(((m.getX()+(m.getImgW()/2)) > (enemyReal[j].getX()-(10/2)) && (m.getX()-(m.getImgW()/2)) < (enemyReal[j].getX()+(150/2))) && 
                         ((m.getY()+(m.getImgH()/2)) > (enemyReal[j].getY()-(100/2)) && (m.getY()-(m.getImgH()/2)) < (enemyReal[j].getY()+(100/2)))){
                     enemyReal[j].hit(1);
@@ -234,20 +236,26 @@ public class window extends JPanel implements ActionListener {
                     if(enemyReal[j].getHealth() <= 0){
                         System.out.println("Dead");
                     }
-                    if (!ms.isEmpty()){
-                        ms.remove(i);
-                        msd.remove(i);
+                    
+                    try {
+                        if (ms.get(i) != null){
+                            ms.remove(i);
+                            msd.remove(i);
+                            break hitCheck;
+                        }
+                    } catch ( IndexOutOfBoundsException b ) {
+//                        ms.add( i, new Object() );
                     }
+                    
                 }
             }
-            
         }
         for (int i = 0; i < 3; i++){
             if(((player1.getX()+(player1.getImgW()/2)) > (enemyReal[i].getX()-(10/2)) && (player1.getX()-(player1.getImgW()/2)) < (enemyReal[i].getX()+(150/2))) && 
             ((player1.getY()+(player1.getImgH()/2)) > (enemyReal[i].getY()-(100/2)) && (player1.getY()-(player1.getImgH()/2)) < (enemyReal[i].getY()+(100/2)))){
                 player1.hit(1);
                 if(player1.getHealth() <= 0){
-                    System.out.println("Player Dead");
+                    System.out.println("Player Dead" + z+1);
                 }
             }
         }

@@ -15,7 +15,7 @@ import javax.swing.SwingWorker;
 
 public class player {
 
-    private String walkL = "viking_Sprites/walking.gif";
+    private String stance = "viking_Sprites/stance.gif";
 
     private int dx;
     private int dy;
@@ -25,6 +25,11 @@ public class player {
     private boolean dead;
     private Image image;
     
+    private boolean up = false;
+    private boolean down = false;
+    private boolean left = false;
+    private boolean right = false;
+    
     private int fireRate = 360;
     private int n = 2;
 
@@ -32,7 +37,7 @@ public class player {
     private ArrayList missilesDirections;
 
     public player(int health) {
-        ImageIcon ii = new ImageIcon(this.getClass().getResource(walkL));
+        ImageIcon ii = new ImageIcon(this.getClass().getResource(stance));
         image = ii.getImage();
         missiles = new ArrayList();
         missilesDirections = new ArrayList();
@@ -147,11 +152,33 @@ public class player {
             }
 
             if(key == KeyEvent.VK_UP){
+                final Image pic = image;
                 fireUp();
+                setImage("viking_Sprites/swing.gif");
+                new SwingWorker() {
+                    @Override protected Object doInBackground() throws Exception {
+                        Thread.sleep(360);
+                        return null;
+                    }
+                    @Override protected void done() {
+                        setImageReal(pic);
+                    }
+                }.execute();
             }
 
             if(key == KeyEvent.VK_DOWN){
+                final Image pic = image;
                 fireDown();
+                setImage("viking_Sprites/swingB.gif");
+                new SwingWorker() {
+                    @Override protected Object doInBackground() throws Exception {
+                        Thread.sleep(360);
+                        return null;
+                    }
+                    @Override protected void done() {
+                        setImageReal(pic);
+                    }
+                }.execute();
             }
             
             new SwingWorker() {
@@ -169,6 +196,7 @@ public class player {
         if (key == KeyEvent.VK_A) {
             if(x > 0){
                 dx = -1;
+                left = true;
             }else{
                 x = 0;
                 dx = 0;
@@ -179,6 +207,7 @@ public class player {
         if (key == KeyEvent.VK_D) {
             if(x < 900){
                 dx = 1;
+                right = true;
             }else{
                 x = 800;
                 dx = 0;
@@ -189,19 +218,23 @@ public class player {
         if (key == KeyEvent.VK_W) {
             if(y > 0){
                 dy = -1;
+                up = true;
             }else{
                 y = 0;
                 dy = 0;
             }
+            setImage("viking_Sprites/walking.gif");
         }
 
         if (key == KeyEvent.VK_S) {
             if(y < 700){
                 dy = 1;
+                down = true;
             }else{
                 y = 570;
                 dy = 0;
             }
+            setImage("viking_Sprites/walkingB.gif");
         }
     }
 
@@ -245,19 +278,35 @@ public class player {
         int key = e.getKeyCode();
 
         if (key == KeyEvent.VK_A) {
+            left = false;
             dx = 0;
+            if (!right && !down && !up){
+                setImage("viking_Sprites/stanceB.gif");
+            }
         }
 
         if (key == KeyEvent.VK_D) {
+            right = false;
             dx = 0;
+            if (!left && !down && !up){
+                setImage("viking_Sprites/stance.gif");
+            }
         }
 
         if (key == KeyEvent.VK_W) {
+            up = false;
             dy = 0;
+            if (!left && !down && !left){
+                setImage("viking_Sprites/stance.gif");
+            }
         }
 
         if (key == KeyEvent.VK_S) {
+            down = false;
             dy = 0;
+            if (!right && !left && !up){
+                setImage("viking_Sprites/stanceB.gif");
+            }
         }
     }
 }
