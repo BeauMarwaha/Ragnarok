@@ -7,10 +7,11 @@ package ragnarok;
 
 /*
  * TO DO:
- * enemy track on player pos
- * character movement off screen warp back
- * collision detection between enemies and player
- * character swing up and down gif
+ * enemy track on player pos (new enemy move AI)
+ * enemy hit animation
+ * collision detection between enemies and player and between enemies
+ * add new screen capabilities
+ * player stance animation
  */
 import javax.swing.JFrame;
 
