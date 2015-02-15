@@ -244,7 +244,7 @@ public class window extends JPanel implements ActionListener {
                             break hitCheck;
                         }
                     } catch ( IndexOutOfBoundsException b ) {
-//                        ms.add( i, new Object() );
+                        
                     }
                     
                 }
