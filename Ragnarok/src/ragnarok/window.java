@@ -262,8 +262,43 @@ public class window extends JPanel implements ActionListener {
         
         
         player1.move();
-        for (int i = 0; i < 3; i++){
-             enemyReal[i].move(player1.getX(), player1.getY());
+        //************************************************************************************************************************************************
+        if ((enemyReal[1].getY()+50) > (enemyReal[0].getY()-(100/2)) || (enemyReal[1].getY()-50) < (enemyReal[0].getY()+(100/2))){
+            if ((enemyReal[1].getX()+75) < (enemyReal[0].getX()-(10/2)) || (enemyReal[1].getX()-5) > (enemyReal[0].getX()+(150/2))){
+                enemyReal[0].moveX(player1.getX());
+                System.out.println(11);
+            }else{
+                enemyReal[0].moveY(player1.getY());
+                System.out.println(21);
+            }
+        }
+        if ((enemyReal[1].getX()+75) > (enemyReal[0].getX()-(10/2)) || (enemyReal[1].getX()-5) < (enemyReal[0].getX()+(150/2))){
+            if ((enemyReal[1].getY()+50) < (enemyReal[0].getY()-(100/2)) || (enemyReal[1].getY()-50) > (enemyReal[0].getY()+(100/2))){
+                enemyReal[0].moveY(player1.getY());
+                System.out.println(31);
+            }else{
+                enemyReal[0].moveX(player1.getX());
+                System.out.println(41);
+            }
+        }
+        
+        if ((enemyReal[2].getY()+50) > (enemyReal[0].getY()-(100/2)) || (enemyReal[2].getY()-50) < (enemyReal[0].getY()+(100/2))){
+            if ((enemyReal[2].getX()+75) < (enemyReal[0].getX()-(10/2)) || (enemyReal[2].getX()-5) > (enemyReal[0].getX()+(150/2))){
+                enemyReal[0].moveX(player1.getX());
+                System.out.println(12);
+            }else{
+                enemyReal[0].moveY(player1.getY());
+                System.out.println(22);
+            }
+        }
+        if ((enemyReal[2].getX()+75) > (enemyReal[0].getX()-(10/2)) || (enemyReal[2].getX()-5) < (enemyReal[0].getX()+(150/2))){
+            if ((enemyReal[2].getY()+50) < (enemyReal[0].getY()-(100/2)) || (enemyReal[2].getY()-50) > (enemyReal[0].getY()+(100/2))){
+                enemyReal[0].moveY(player1.getY());
+                System.out.println(32);
+            }else{
+                enemyReal[0].moveX(player1.getX());
+                System.out.println(42);
+            }
         }
         repaint();  
     }

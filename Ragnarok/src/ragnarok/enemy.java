@@ -35,22 +35,28 @@ public class enemy {
     }
 
 
-    public void move(int playerX, int playerY) {
+    public void moveX(int playerX) {
         if(!dead){
             if(playerX > x){
                 dx = .3;
             }else if(playerX < x){
                 dx = -.3;
             }
+            x += dx;
+        }
+    }
+    
+    public void moveY(int playerY) {
+        if(!dead){
             if(playerY > y){
                 dy = .3;
             }else if(playerY < y){
                 dy = -.3;
             }
-            x += dx;
             y += dy;
         }
     }
+
 
     public double getX() {
         return x;
