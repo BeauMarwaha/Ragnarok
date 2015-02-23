@@ -195,7 +195,7 @@ public class player {
 
         if (key == KeyEvent.VK_A) {
             if(x > 0){
-                dx = -1;
+                dx = -2;
                 left = true;
             }else{
                 x = 0;
@@ -206,7 +206,7 @@ public class player {
 
         if (key == KeyEvent.VK_D) {
             if(x < 900){
-                dx = 1;
+                dx = 2;
                 right = true;
             }else{
                 x = 800;
@@ -217,7 +217,7 @@ public class player {
 
         if (key == KeyEvent.VK_W) {
             if(y > 0){
-                dy = -1;
+                dy = -2;
                 up = true;
             }else{
                 y = 0;
@@ -228,7 +228,7 @@ public class player {
 
         if (key == KeyEvent.VK_S) {
             if(y < 700){
-                dy = 1;
+                dy = 2;
                 down = true;
             }else{
                 y = 570;

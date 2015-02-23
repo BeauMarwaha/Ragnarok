@@ -29,7 +29,7 @@ public class enemy {
         ImageIcon ii = new ImageIcon(this.getClass().getResource(walkL));
         image = ii.getImage();
         x = 600;
-        y = gen.nextInt(650);
+        y = gen.nextInt(500);
         this.health = health;
         dead = false;
     }

@@ -263,42 +263,87 @@ public class window extends JPanel implements ActionListener {
         
         player1.move();
         //************************************************************************************************************************************************
-        if ((enemyReal[1].getY()+50) > (enemyReal[0].getY()-(100/2)) || (enemyReal[1].getY()-50) < (enemyReal[0].getY()+(100/2))){
-            if ((enemyReal[1].getX()+75) < (enemyReal[0].getX()-(10/2)) || (enemyReal[1].getX()-5) > (enemyReal[0].getX()+(150/2))){
-                enemyReal[0].moveX(player1.getX());
-                System.out.println(11);
-            }else{
-                enemyReal[0].moveY(player1.getY());
-                System.out.println(21);
-            }
+//        if ((enemyReal[1].getY()+50) > (enemyReal[0].getY()-(100/2)) || (enemyReal[1].getY()-50) < (enemyReal[0].getY()+(100/2))){
+//            if ((enemyReal[1].getX()+75) < (enemyReal[0].getX()-(10/2)) || (enemyReal[1].getX()-5) > (enemyReal[0].getX()+(150/2))){
+//                enemyReal[0].moveX(player1.getX());
+//                System.out.println(11);
+//            }else{
+//                enemyReal[0].moveY(player1.getY());
+//                System.out.println(21);
+//            }
+//        }
+//        if ((enemyReal[1].getX()+75) > (enemyReal[0].getX()-(10/2)) || (enemyReal[1].getX()-5) < (enemyReal[0].getX()+(150/2))){
+//            if ((enemyReal[1].getY()+50) < (enemyReal[0].getY()-(100/2)) || (enemyReal[1].getY()-50) > (enemyReal[0].getY()+(100/2))){
+//                enemyReal[0].moveY(player1.getY());
+//                System.out.println(31);
+//            }else{
+//                enemyReal[0].moveX(player1.getX());
+//                System.out.println(41);
+//            }
+//        }
+//        
+//        if ((enemyReal[2].getY()+50) > (enemyReal[0].getY()-(100/2)) || (enemyReal[2].getY()-50) < (enemyReal[0].getY()+(100/2))){
+//            if ((enemyReal[2].getX()+75) < (enemyReal[0].getX()-(10/2)) || (enemyReal[2].getX()-5) > (enemyReal[0].getX()+(150/2))){
+//                enemyReal[0].moveX(player1.getX());
+//                System.out.println(12);
+//            }else{
+//                enemyReal[0].moveY(player1.getY());
+//                System.out.println(22);
+//            }
+//        }
+//        if ((enemyReal[2].getX()+75) > (enemyReal[0].getX()-(10/2)) || (enemyReal[2].getX()-5) < (enemyReal[0].getX()+(150/2))){
+//            if ((enemyReal[2].getY()+50) < (enemyReal[0].getY()-(100/2)) || (enemyReal[2].getY()-50) > (enemyReal[0].getY()+(100/2))){
+//                enemyReal[0].moveY(player1.getY());
+//                System.out.println(32);
+//            }else{
+//                enemyReal[0].moveX(player1.getX());
+//                System.out.println(42);
+//            }
+//        }
+        //enemy0
+        if(collision(enemyReal[1].getX(), enemyReal[1].getY(), enemyReal[0].getX(), enemyReal[0].getY(), enemyReal[0].getImgW(), enemyReal[0].getImgH())){
+            enemyReal[0].moveY(player1.getY());
+            enemyReal[0].moveX(player1.getX());
+        }else{
+            enemyReal[0].moveY(0);
+            enemyReal[0].moveX(0);
         }
-        if ((enemyReal[1].getX()+75) > (enemyReal[0].getX()-(10/2)) || (enemyReal[1].getX()-5) < (enemyReal[0].getX()+(150/2))){
-            if ((enemyReal[1].getY()+50) < (enemyReal[0].getY()-(100/2)) || (enemyReal[1].getY()-50) > (enemyReal[0].getY()+(100/2))){
-                enemyReal[0].moveY(player1.getY());
-                System.out.println(31);
-            }else{
-                enemyReal[0].moveX(player1.getX());
-                System.out.println(41);
-            }
+        if(collision(enemyReal[2].getX(), enemyReal[2].getY(), enemyReal[0].getX(), enemyReal[0].getY(), enemyReal[0].getImgW(), enemyReal[0].getImgH())){
+            enemyReal[0].moveY(player1.getY());
+            enemyReal[0].moveX(player1.getX());
+        }else{
+            enemyReal[0].moveY(0);
+            enemyReal[0].moveX(0);
         }
-        
-        if ((enemyReal[2].getY()+50) > (enemyReal[0].getY()-(100/2)) || (enemyReal[2].getY()-50) < (enemyReal[0].getY()+(100/2))){
-            if ((enemyReal[2].getX()+75) < (enemyReal[0].getX()-(10/2)) || (enemyReal[2].getX()-5) > (enemyReal[0].getX()+(150/2))){
-                enemyReal[0].moveX(player1.getX());
-                System.out.println(12);
-            }else{
-                enemyReal[0].moveY(player1.getY());
-                System.out.println(22);
-            }
+        //enemy1
+        if(collision(enemyReal[0].getX(), enemyReal[0].getY(), enemyReal[1].getX(), enemyReal[1].getY(), enemyReal[1].getImgW(), enemyReal[1].getImgH())){
+            enemyReal[1].moveY(player1.getY());
+            enemyReal[1].moveX(player1.getX());
+        }else{
+            enemyReal[1].moveY(0);
+            enemyReal[1].moveX(0);
         }
-        if ((enemyReal[2].getX()+75) > (enemyReal[0].getX()-(10/2)) || (enemyReal[2].getX()-5) < (enemyReal[0].getX()+(150/2))){
-            if ((enemyReal[2].getY()+50) < (enemyReal[0].getY()-(100/2)) || (enemyReal[2].getY()-50) > (enemyReal[0].getY()+(100/2))){
-                enemyReal[0].moveY(player1.getY());
-                System.out.println(32);
-            }else{
-                enemyReal[0].moveX(player1.getX());
-                System.out.println(42);
-            }
+        if(collision(enemyReal[2].getX(), enemyReal[2].getY(), enemyReal[1].getX(), enemyReal[1].getY(), enemyReal[1].getImgW(), enemyReal[1].getImgH())){
+            enemyReal[1].moveY(player1.getY());
+            enemyReal[1].moveX(player1.getX());
+        }else{
+            enemyReal[1].moveY(0);
+            enemyReal[1].moveX(0);
+        }
+        //enemy2
+        if(collision(enemyReal[1].getX(), enemyReal[1].getY(), enemyReal[2].getX(), enemyReal[2].getY(), enemyReal[2].getImgW(), enemyReal[2].getImgH())){
+            enemyReal[2].moveY(player1.getY());
+            enemyReal[2].moveX(player1.getX());
+        }else{
+            enemyReal[2].moveY(0);
+            enemyReal[2].moveX(0);
+        }
+        if(collision(enemyReal[0].getX(), enemyReal[0].getY(), enemyReal[2].getX(), enemyReal[2].getY(), enemyReal[2].getImgW(), enemyReal[2].getImgH())){
+            enemyReal[2].moveY(player1.getY());
+            enemyReal[2].moveX(player1.getX());
+        }else{
+            enemyReal[2].moveY(0);
+            enemyReal[2].moveX(0);
         }
         repaint();  
     }
@@ -314,6 +359,15 @@ public class window extends JPanel implements ActionListener {
         public void keyPressed(KeyEvent e) {
             player1.keyPressed(e);
         }
+    }
+    
+    public boolean collision(double x1, double y1, double x2, double y2, int imgW2, int imgH2){
+        if(x1 > x2 && x1 < x2 + imgW2){
+            if(y1 > y2 && y1 < y2 + imgH2){
+            return false;
+            } 
+        }
+        return true;
     }
     
     public void setEnemies(Graphics2D g2d){
