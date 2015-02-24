@@ -34,14 +34,6 @@ public class window extends JPanel implements ActionListener {
     
     int z = 0;
 
-    public void ImagePanel() {
-       try {                
-          image = ImageIO.read(new File("src\\ragnarok\\back1.png"));
-       } catch (IOException ex) {
-            
-       }
-    }
-    
     public window() {
         
         addKeyListener(new TAdapter());
@@ -56,7 +48,11 @@ public class window extends JPanel implements ActionListener {
         
         timer = new Timer(0, this);
         timer.start();
-        ImagePanel();
+        try {                
+           image = ImageIO.read(new File("src\\ragnarok\\back1.png"));
+        } catch (IOException ex) {
+
+        }
         
 //        InputMap im = getInputMap(WHEN_IN_FOCUSED_WINDOW);
 //        ActionMap am = getActionMap();
