@@ -20,7 +20,6 @@ public class axe {
     private final int MISSILE_SPEED = 2;
 
     public axe(int x, int y) {
-
         ImageIcon ii = new ImageIcon(this.getClass().getResource("hammerspin.gif"));
         image = ii.getImage();
         visible = true;
