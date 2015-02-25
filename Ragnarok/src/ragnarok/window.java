@@ -32,6 +32,8 @@ public class window extends JPanel implements ActionListener {
     
     private BufferedImage image;
     
+    private boolean newLevelTime = false;
+    
     int z = 0;
 
     public window() {
@@ -40,19 +42,21 @@ public class window extends JPanel implements ActionListener {
         setFocusable(true);
         setBackground(Color.BLACK);
         setDoubleBuffered(true);
-
-        player1 = new player(5);
-        for (int i = 0; i < 3; i++){
-            enemyReal[i] = new enemy(5);
-        }
         
-        timer = new Timer(0, this);
-        timer.start();
         try {                
-           image = ImageIO.read(new File("src\\ragnarok\\back1.png"));
+           image = ImageIO.read(new File("src\\ragnarok\\mainback.jpg"));
         } catch (IOException ex) {
 
         }
+        
+        player1 = new player(5);
+        newlevel(player1);
+        
+        timer = new Timer(0, this);
+        timer.start();
+        
+        
+        
         
 //        InputMap im = getInputMap(WHEN_IN_FOCUSED_WINDOW);
 //        ActionMap am = getActionMap();
@@ -204,6 +208,12 @@ public class window extends JPanel implements ActionListener {
             Toolkit.getDefaultToolkit().sync();
             g.dispose();
             
+            if(newLevelTime){
+                g2d.dispose();
+                newlevel(player1);
+                newLevelTime = false;
+            }
+            
     }
 
 
@@ -246,12 +256,23 @@ public class window extends JPanel implements ActionListener {
                 }
             }
         }
+        int deadCount = 0;
+        for (int j = 0; j < 3; j++){
+            if(enemyReal[j].getHealth() <= 0){
+                deadCount += 1;
+            }
+            if (deadCount == 3){
+                newLevelTime = true;
+            }
+        }
+        deadCount = 0;
+        
         for (int i = 0; i < 3; i++){
             if(((player1.getX()+(player1.getImgW()/2)) > (enemyReal[i].getX()-(10/2)) && (player1.getX()-(player1.getImgW()/2)) < (enemyReal[i].getX()+(150/2))) && 
             ((player1.getY()+(player1.getImgH()/2)) > (enemyReal[i].getY()-(100/2)) && (player1.getY()-(player1.getImgH()/2)) < (enemyReal[i].getY()+(100/2)))){
                 player1.hit(1);
                 if(player1.getHealth() <= 0){
-                    System.out.println("Player Dead" + z+1);
+                    System.out.println("Player Dead " + player1.getHealth());
                 }
             }
         }
@@ -371,5 +392,21 @@ public class window extends JPanel implements ActionListener {
              g2d.drawImage(enemyReal[i].getImage(), (int)Math.round(enemyReal[i].getX()), (int)Math.round(enemyReal[i].getY()), this);
         }
         
+    }
+    
+    final public void newlevel(player x){
+        
+        player1 = x;
+        player1.setX(40);
+        player1.setY(60);
+        for (int i = 0; i < 3; i++){
+            enemyReal[i] = new enemy(5);
+        }
+        
+        try {                
+           image = ImageIO.read(new File("src\\ragnarok\\back1.png"));
+        } catch (IOException ex) {
+
+        }
     }
 }

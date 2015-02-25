@@ -20,12 +20,12 @@ public class Ragnarok extends JFrame {
 
     public Ragnarok() {
 
-        add(new window());
+        add(new mainMenu());
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(900, 700);
+        setSize(810, 645);
         setLocationRelativeTo(null);
-        setTitle("Ragnarok");
+        setTitle("Ragnarok Menu");
         setResizable(false);
         setVisible(true);
     }
