@@ -9,6 +9,10 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
@@ -17,28 +21,45 @@ import javax.swing.JPanel;
  */
 public class mainMenu extends JPanel implements ActionListener {
     
-    private BufferedImage image;
+    ImageIcon image = new ImageIcon("src\\ragnarok\\mainback.jpg");
+    JButton startButton = new JButton("Hello");
     
+    boolean start;
     
-    public mainMenu(){
-        setFocusable(true);
-        setBackground(Color.BLACK);
-        setDoubleBuffered(true);
+    JFrame window = new JFrame("Hang Man");//GUI window
+    JPanel mainPanel = new JPanel(); 
+    JLabel pic = new JLabel();
+    
+    public mainMenu(boolean start){
+        window.add(mainPanel);
+        window.setSize(810, 645);
+        window.setLocationRelativeTo(null); 
+        window.setVisible(true);
+        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
-        try {                
-           image = ImageIO.read(new File("src\\ragnarok\\mainback.jpg"));
-        } catch (IOException ex) {
-
-        }
-    }
-    
-    public void paint(Graphics g) {
-            super.paint(g);
-            g.drawImage(image, 0, 0, null);
+        this.start = start;
+        
+        pic.setIcon(image);
+        
+        mainPanel.add(pic);
+        mainPanel.add(startButton);
+        startButton.addActionListener(this);
+        
+        return check(start);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if(e.getSource() == startButton){
+            start = true;
+        }
+    }
+    
+    public boolean check(boolean start){
+        if(start){
+            return true;
+        }
+        
+        return false;
     }
 }

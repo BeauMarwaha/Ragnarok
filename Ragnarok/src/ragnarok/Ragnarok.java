@@ -17,20 +17,25 @@ package ragnarok;
 import javax.swing.JFrame;
 
 public class Ragnarok extends JFrame {
+    
+    static boolean start = false;
 
     public Ragnarok() {
 
-        add(new mainMenu());
+        add(new window());
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(810, 645);
+        setSize(900, 700);
         setLocationRelativeTo(null);
-        setTitle("Ragnarok Menu");
+        setTitle("Ragnarok");
         setResizable(false);
         setVisible(true);
     }
 
     public static void main(String[] args) {
-        new Ragnarok();
+        mainMenu x = new mainMenu(start);
+        if (start){
+            new Ragnarok();
+        }
     }
 }
