@@ -18,7 +18,7 @@ import javax.swing.JFrame;
 
 public class Ragnarok extends JFrame {
     
-    static boolean start = false;
+    boolean done = false;
 
     public Ragnarok() {
 
@@ -33,9 +33,6 @@ public class Ragnarok extends JFrame {
     }
 
     public static void main(String[] args) {
-        mainMenu x = new mainMenu(start);
-        if (start){
-            new Ragnarok();
-        }
+        mainMenu x = new mainMenu();
     }
 }
