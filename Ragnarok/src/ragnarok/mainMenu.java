@@ -1,7 +1,6 @@
 
 package ragnarok;
 
-import java.awt.Dimension;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.ImageIcon;
@@ -27,10 +26,9 @@ public class mainMenu extends JPanel implements MouseListener {
     public mainMenu(){
         window.setUndecorated(true);
         pic.setIcon(image);
-        mainPanel.add(pic);
         pic.addMouseListener(this);
         
-        window.add(mainPanel);
+        window.add(pic);
         window.setSize(810, 645);
         window.setLocationRelativeTo(null); 
         window.setVisible(true);
@@ -43,7 +41,14 @@ public class mainMenu extends JPanel implements MouseListener {
             start = true;
             System.out.println("A");
             window.dispose();
-            JOptionPane.showMessageDialog(null, "Put intro text here...");
+            JOptionPane.showMessageDialog(null, "You are the Norse god Forseti, son of Baldur who is the son \n"
+                                              + "of Odin. Your father Baldur has been killed due to the misdeeds \n"
+                                              + "of the wily and disloyal Norse god Loki. Take up your legendary \n"
+                                              + "hammer and take revenge for your father, Forseti, and take your \n"
+                                              + "place as one of the most legendary gods in history.");
+            JOptionPane.showMessageDialog(null, "As you begin your journey to track down and kill the trickster \n"
+                                              + "Loki you begin to encounter his evil minions. You must kill \n"
+                                              + "them to countinue on your journey." );
             new Ragnarok();
         }
     }
