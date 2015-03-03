@@ -16,8 +16,10 @@ import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
+import javax.swing.SwingWorker;
 import javax.swing.Timer;
 
 /**
@@ -29,6 +31,8 @@ public class window extends JPanel implements ActionListener {
     private Timer timer;
     private player player1;
     private enemy[] enemyReal = new enemy[3];
+    
+    private int stageNumber = 1;
     
     private BufferedImage image;
     
@@ -50,7 +54,7 @@ public class window extends JPanel implements ActionListener {
         }
         
         player1 = new player(5);
-        newlevel(player1);
+        newlevel(player1, 40);
         
         timer = new Timer(0, this);
         timer.start();
@@ -209,9 +213,13 @@ public class window extends JPanel implements ActionListener {
             g.dispose();
             
             if(newLevelTime){
+                timer.stop();
                 g2d.dispose();
-                newlevel(player1);
+                stageNumber += 1;
                 newLevelTime = false;
+                newlevel(player1, player1.getY());
+                JOptionPane.showMessageDialog(null, "Ready to begin stage " + stageNumber + "?");
+                timer.start();
             }
             
     }
@@ -241,6 +249,7 @@ public class window extends JPanel implements ActionListener {
                     System.out.println("h " + enemyReal[j].getImgH());
                     if(enemyReal[j].getHealth() <= 0){
                         System.out.println("Dead");
+                        enemyReal[j].setImage("enemy_Sprites/goblin/ongroundGob.gif");
                     }
                     
                     try {
@@ -279,44 +288,6 @@ public class window extends JPanel implements ActionListener {
         
         
         player1.move();
-        //************************************************************************************************************************************************
-//        if ((enemyReal[1].getY()+50) > (enemyReal[0].getY()-(100/2)) || (enemyReal[1].getY()-50) < (enemyReal[0].getY()+(100/2))){
-//            if ((enemyReal[1].getX()+75) < (enemyReal[0].getX()-(10/2)) || (enemyReal[1].getX()-5) > (enemyReal[0].getX()+(150/2))){
-//                enemyReal[0].moveX(player1.getX());
-//                System.out.println(11);
-//            }else{
-//                enemyReal[0].moveY(player1.getY());
-//                System.out.println(21);
-//            }
-//        }
-//        if ((enemyReal[1].getX()+75) > (enemyReal[0].getX()-(10/2)) || (enemyReal[1].getX()-5) < (enemyReal[0].getX()+(150/2))){
-//            if ((enemyReal[1].getY()+50) < (enemyReal[0].getY()-(100/2)) || (enemyReal[1].getY()-50) > (enemyReal[0].getY()+(100/2))){
-//                enemyReal[0].moveY(player1.getY());
-//                System.out.println(31);
-//            }else{
-//                enemyReal[0].moveX(player1.getX());
-//                System.out.println(41);
-//            }
-//        }
-//        
-//        if ((enemyReal[2].getY()+50) > (enemyReal[0].getY()-(100/2)) || (enemyReal[2].getY()-50) < (enemyReal[0].getY()+(100/2))){
-//            if ((enemyReal[2].getX()+75) < (enemyReal[0].getX()-(10/2)) || (enemyReal[2].getX()-5) > (enemyReal[0].getX()+(150/2))){
-//                enemyReal[0].moveX(player1.getX());
-//                System.out.println(12);
-//            }else{
-//                enemyReal[0].moveY(player1.getY());
-//                System.out.println(22);
-//            }
-//        }
-//        if ((enemyReal[2].getX()+75) > (enemyReal[0].getX()-(10/2)) || (enemyReal[2].getX()-5) < (enemyReal[0].getX()+(150/2))){
-//            if ((enemyReal[2].getY()+50) < (enemyReal[0].getY()-(100/2)) || (enemyReal[2].getY()-50) > (enemyReal[0].getY()+(100/2))){
-//                enemyReal[0].moveY(player1.getY());
-//                System.out.println(32);
-//            }else{
-//                enemyReal[0].moveX(player1.getX());
-//                System.out.println(42);
-//            }
-//        }
         //enemy0
         if(collision(enemyReal[1].getX(), enemyReal[1].getY(), enemyReal[0].getX(), enemyReal[0].getY(), enemyReal[0].getImgW(), enemyReal[0].getImgH())){
             enemyReal[0].moveY(player1.getY());
@@ -394,11 +365,11 @@ public class window extends JPanel implements ActionListener {
         
     }
     
-    final public void newlevel(player x){
+    final public void newlevel(player x, int oldPlayerY){
         
         player1 = x;
         player1.setX(40);
-        player1.setY(60);
+        player1.setY(oldPlayerY);
         for (int i = 0; i < 3; i++){
             enemyReal[i] = new enemy(5);
         }

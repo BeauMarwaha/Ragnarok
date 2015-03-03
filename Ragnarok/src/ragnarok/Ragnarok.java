@@ -10,8 +10,6 @@ package ragnarok;
  * enemy track on player pos (new enemy move AI)
  * enemy hit animation
  * collision detection between enemies and player and between enemies
- * add new screen capabilities
- * player stance animation
  * character mopves too fast on home comp
  */
 import javax.swing.JFrame;

@@ -4,6 +4,7 @@ package ragnarok;
 import java.awt.Image;
 import java.util.Random;
 import javax.swing.ImageIcon;
+import javax.swing.SwingWorker;
 
 /**
  *
@@ -32,6 +33,21 @@ public class enemy {
         y = gen.nextInt(500);
         this.health = health;
         dead = false;
+    }
+    
+    public void setImage(String pic) {
+        ImageIcon ii = new ImageIcon(this.getClass().getResource(pic));
+        image = ii.getImage();
+        new SwingWorker() {
+            @Override protected Object doInBackground() throws Exception {
+                Thread.sleep(1000);
+                return null;
+            }
+            @Override protected void done() {
+                x = 5000;
+                y = 5000;
+            }
+        }.execute();
     }
 
 
@@ -85,9 +101,8 @@ public class enemy {
     public void hit(int damage){
         health -= damage;
         if(health <= 0){
+            setImage("enemy_Sprites/goblin/ongroundGob.gif");
             dead = true;
-            x = 5000;
-            y = 5000;
         }
     }
 }
