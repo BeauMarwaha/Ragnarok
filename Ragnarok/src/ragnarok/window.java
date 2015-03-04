@@ -30,9 +30,10 @@ public class window extends JPanel implements ActionListener {
 
     private Timer timer;
     private player player1;
-    private enemy[] enemyReal = new enemy[3];
+    private enemy[] enemyReal = new enemy[100];
     
     private int stageNumber = 1;
+    private int enemyCount;
     
     private BufferedImage image;
     
@@ -40,12 +41,14 @@ public class window extends JPanel implements ActionListener {
     
     int z = 0;
 
-    public window() {
+    public window(int enemyCount) {
         
         addKeyListener(new TAdapter());
         setFocusable(true);
         setBackground(Color.BLACK);
         setDoubleBuffered(true);
+        
+        this.enemyCount = enemyCount;
         
         try {                
            image = ImageIO.read(new File("src\\ragnarok\\mainback.jpg"));
@@ -54,7 +57,7 @@ public class window extends JPanel implements ActionListener {
         }
         
         player1 = new player(5);
-        newlevel(player1, 40);
+        newlevel(player1, 40, enemyCount);
         
         timer = new Timer(0, this);
         timer.start();
@@ -204,6 +207,22 @@ public class window extends JPanel implements ActionListener {
             g2d.drawImage(player1.getImage(), player1.getX(), player1.getY(), this);
             setEnemies(g2d);
             
+            if(player1.getX() < 0){
+                player1.setX(0);
+            }
+
+            if(player1.getX() > 800){
+                player1.setX(800);
+            }
+
+            if(player1.getY() < 0){
+                player1.setY(0); 
+            }
+
+            if(player1.getY() > 570){
+                player1.setY(570); 
+            }
+            
             ArrayList ms = player1.getMissiles();
             for (int i = 0; i < ms.size(); i++ ) {
                 axe m = (axe) ms.get(i);
@@ -216,8 +235,9 @@ public class window extends JPanel implements ActionListener {
                 timer.stop();
                 g2d.dispose();
                 stageNumber += 1;
+                enemyCount += 1;
                 newLevelTime = false;
-                newlevel(player1, player1.getY());
+                newlevel(player1, player1.getY(), enemyCount);
                 JOptionPane.showMessageDialog(null, "Ready to begin stage " + stageNumber + "?");
                 timer.start();
             }
@@ -241,7 +261,7 @@ public class window extends JPanel implements ActionListener {
                 m.moveDown();
             }
             
-            hitCheck: for (int j = 0; j < 3; j++){
+            hitCheck: for (int j = 0; j < enemyCount; j++){
                 if(((m.getX()+(m.getImgW()/2)) > (enemyReal[j].getX()-(10/2)) && (m.getX()-(m.getImgW()/2)) < (enemyReal[j].getX()+(150/2))) && 
                         ((m.getY()+(m.getImgH()/2)) > (enemyReal[j].getY()-(100/2)) && (m.getY()-(m.getImgH()/2)) < (enemyReal[j].getY()+(100/2)))){
                     enemyReal[j].hit(1);
@@ -266,17 +286,17 @@ public class window extends JPanel implements ActionListener {
             }
         }
         int deadCount = 0;
-        for (int j = 0; j < 3; j++){
+        for (int j = 0; j < enemyCount; j++){
             if(enemyReal[j].getHealth() <= 0){
                 deadCount += 1;
             }
-            if (deadCount == 3){
+            if (deadCount == enemyCount){
                 newLevelTime = true;
             }
         }
         deadCount = 0;
         
-        for (int i = 0; i < 3; i++){
+        for (int i = 0; i < enemyCount; i++){
             if(((player1.getX()+(player1.getImgW()/2)) > (enemyReal[i].getX()-(10/2)) && (player1.getX()-(player1.getImgW()/2)) < (enemyReal[i].getX()+(150/2))) && 
             ((player1.getY()+(player1.getImgH()/2)) > (enemyReal[i].getY()-(100/2)) && (player1.getY()-(player1.getImgH()/2)) < (enemyReal[i].getY()+(100/2)))){
                 player1.hit(1);
@@ -288,50 +308,18 @@ public class window extends JPanel implements ActionListener {
         
         
         player1.move();
-        //enemy0
-        if(collision(enemyReal[1].getX(), enemyReal[1].getY(), enemyReal[0].getX(), enemyReal[0].getY(), enemyReal[0].getImgW(), enemyReal[0].getImgH())){
-            enemyReal[0].moveY(player1.getY());
-            enemyReal[0].moveX(player1.getX());
-        }else{
-            enemyReal[0].moveY(0);
-            enemyReal[0].moveX(0);
-        }
-        if(collision(enemyReal[2].getX(), enemyReal[2].getY(), enemyReal[0].getX(), enemyReal[0].getY(), enemyReal[0].getImgW(), enemyReal[0].getImgH())){
-            enemyReal[0].moveY(player1.getY());
-            enemyReal[0].moveX(player1.getX());
-        }else{
-            enemyReal[0].moveY(0);
-            enemyReal[0].moveX(0);
-        }
-        //enemy1
-        if(collision(enemyReal[0].getX(), enemyReal[0].getY(), enemyReal[1].getX(), enemyReal[1].getY(), enemyReal[1].getImgW(), enemyReal[1].getImgH())){
-            enemyReal[1].moveY(player1.getY());
-            enemyReal[1].moveX(player1.getX());
-        }else{
-            enemyReal[1].moveY(0);
-            enemyReal[1].moveX(0);
-        }
-        if(collision(enemyReal[2].getX(), enemyReal[2].getY(), enemyReal[1].getX(), enemyReal[1].getY(), enemyReal[1].getImgW(), enemyReal[1].getImgH())){
-            enemyReal[1].moveY(player1.getY());
-            enemyReal[1].moveX(player1.getX());
-        }else{
-            enemyReal[1].moveY(0);
-            enemyReal[1].moveX(0);
-        }
-        //enemy2
-        if(collision(enemyReal[1].getX(), enemyReal[1].getY(), enemyReal[2].getX(), enemyReal[2].getY(), enemyReal[2].getImgW(), enemyReal[2].getImgH())){
-            enemyReal[2].moveY(player1.getY());
-            enemyReal[2].moveX(player1.getX());
-        }else{
-            enemyReal[2].moveY(0);
-            enemyReal[2].moveX(0);
-        }
-        if(collision(enemyReal[0].getX(), enemyReal[0].getY(), enemyReal[2].getX(), enemyReal[2].getY(), enemyReal[2].getImgW(), enemyReal[2].getImgH())){
-            enemyReal[2].moveY(player1.getY());
-            enemyReal[2].moveX(player1.getX());
-        }else{
-            enemyReal[2].moveY(0);
-            enemyReal[2].moveX(0);
+        for(int enemyFocus = 0; enemyFocus < enemyCount; enemyFocus++){
+            for(int enemyChecking = 0; enemyChecking < enemyCount; enemyChecking++){
+                if (enemyFocus != enemyChecking){
+                    if(collision(enemyReal[enemyChecking].getX(), enemyReal[enemyChecking].getY(), enemyReal[enemyFocus].getX(), enemyReal[enemyFocus].getY(), enemyReal[enemyFocus].getImgW(), enemyReal[enemyFocus].getImgH())){
+                        enemyReal[enemyFocus].moveY(player1.getY());
+                        enemyReal[enemyFocus].moveX(player1.getX());
+                    }else{
+                        enemyReal[enemyFocus].moveY(0);
+                        enemyReal[enemyFocus].moveX(0);
+                    }
+                }
+            }
         }
         repaint();  
     }
@@ -359,18 +347,19 @@ public class window extends JPanel implements ActionListener {
     }
     
     public void setEnemies(Graphics2D g2d){
-        for (int i = 0; i < 3; i++){
+        for (int i = 0; i < enemyCount; i++){
              g2d.drawImage(enemyReal[i].getImage(), (int)Math.round(enemyReal[i].getX()), (int)Math.round(enemyReal[i].getY()), this);
         }
         
     }
     
-    final public void newlevel(player x, int oldPlayerY){
+    final public void newlevel(player x, int oldPlayerY, int enemyCount){
         
         player1 = x;
         player1.setX(40);
         player1.setY(oldPlayerY);
-        for (int i = 0; i < 3; i++){
+        System.err.println(enemyCount);
+        for (int i = 0; i < enemyCount; i++){
             enemyReal[i] = new enemy(5);
         }
         
