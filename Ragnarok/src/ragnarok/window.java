@@ -39,6 +39,9 @@ public class window extends JPanel implements ActionListener {
     
     private boolean newLevelTime = false;
     
+    ArrayList ms;
+    ArrayList msd;
+    
     int z = 0;
 
     public window(int enemyCount) {
@@ -56,7 +59,7 @@ public class window extends JPanel implements ActionListener {
 
         }
         
-        player1 = new player(5);
+        player1 = new player(10);
         newlevel(player1, 40, enemyCount);
         
         timer = new Timer(0, this);
@@ -223,7 +226,7 @@ public class window extends JPanel implements ActionListener {
                 player1.setY(570); 
             }
             
-            ArrayList ms = player1.getMissiles();
+            ms = player1.getMissiles();
             for (int i = 0; i < ms.size(); i++ ) {
                 axe m = (axe) ms.get(i);
                 g2d.drawImage(m.getImage(), m.getX(), m.getY(), this);
@@ -237,6 +240,8 @@ public class window extends JPanel implements ActionListener {
                 stageNumber += 1;
                 enemyCount += 1;
                 newLevelTime = false;
+                ms.removeAll(ms);
+                msd.removeAll(msd);
                 newlevel(player1, player1.getY(), enemyCount);
                 JOptionPane.showMessageDialog(null, "Ready to begin stage " + stageNumber + "?");
                 timer.start();
@@ -246,8 +251,8 @@ public class window extends JPanel implements ActionListener {
 
 
     public void actionPerformed(ActionEvent e) {
-        ArrayList ms = player1.getMissiles();
-        ArrayList msd = player1.getMissilesDirections();
+        ms = player1.getMissiles();
+        msd = player1.getMissilesDirections();
         
         for (int i = 0; i < ms.size(); i++) {
             axe m = (axe) ms.get(i);
@@ -300,8 +305,12 @@ public class window extends JPanel implements ActionListener {
             if(((player1.getX()+(player1.getImgW()/2)) > (enemyReal[i].getX()-(10/2)) && (player1.getX()-(player1.getImgW()/2)) < (enemyReal[i].getX()+(150/2))) && 
             ((player1.getY()+(player1.getImgH()/2)) > (enemyReal[i].getY()-(100/2)) && (player1.getY()-(player1.getImgH()/2)) < (enemyReal[i].getY()+(100/2)))){
                 player1.hit(1);
+                enemyReal[i].hit(0);
                 if(player1.getHealth() <= 0){
-                    System.out.println("Player Dead " + player1.getHealth());
+                    JOptionPane.showMessageDialog(null, "You have fought bravely but it was not enough. \n"
+                                                      + "You fell trying to complete Stage: " + stageNumber + "\n"
+                                                      + "YOU LOSE" );
+                    System.exit(0);
                 }
             }
         }

@@ -18,6 +18,8 @@ public class enemy {
     
     Random gen = new Random();
     
+    private boolean knockback = false;
+    
     private double dx;
     private double dy;
     private double x;
@@ -58,7 +60,11 @@ public class enemy {
             }else if(playerX < x){
                 dx = -.3;
             }
-            x += dx;
+            if(!knockback){
+                x += dx;
+            }else{
+                x += dx * -1;
+            }
         }
     }
     
@@ -69,10 +75,29 @@ public class enemy {
             }else if(playerY < y){
                 dy = -.3;
             }
-            y += dy;
+            if(!knockback){
+                y += dy;
+            }else{
+                y += dy * -1;
+            }
         }
     }
+    
+    public void setdx(int dx) {
+        this.dx = dx;
+    }
 
+    public void setdy(int dy) {
+        this.dy = dy;
+    }
+    
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
 
     public double getX() {
         return x;
@@ -104,5 +129,18 @@ public class enemy {
             setImage("enemy_Sprites/goblin/ongroundGob.gif");
             dead = true;
         }
+        if(!dead){
+            knockback = true;
+            new SwingWorker() {
+                @Override protected Object doInBackground() throws Exception {
+                    Thread.sleep(500);
+                    return null;
+                }
+                @Override protected void done() {
+                    knockback = false;
+                }
+            }.execute();
+        }
+        
     }
 }
