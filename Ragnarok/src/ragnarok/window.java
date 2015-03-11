@@ -1,3 +1,4 @@
+
 package ragnarok;
 
 import java.awt.Color;
@@ -30,6 +31,7 @@ public class window extends JPanel implements ActionListener {
 
     private Timer timer;
     private player player1;
+    private boss[] loki = new boss[2];
     private enemy[] enemyReal = new enemy[100];
     
     private int stageNumber = 1;
@@ -60,7 +62,7 @@ public class window extends JPanel implements ActionListener {
         }
         
         player1 = new player(10);
-        newlevel(player1, 40, enemyCount);
+        newLevel(player1, 40, enemyCount);
         
         timer = new Timer(0, this);
         timer.start();
@@ -242,8 +244,12 @@ public class window extends JPanel implements ActionListener {
                 newLevelTime = false;
                 ms.removeAll(ms);
                 msd.removeAll(msd);
-                newlevel(player1, player1.getY(), enemyCount);
-                JOptionPane.showMessageDialog(null, "Ready to begin stage " + stageNumber + "?");
+                if(stageNumber == 5){
+                    
+                }else{
+                    newLevel(player1, player1.getY(), enemyCount);
+                    JOptionPane.showMessageDialog(null, "Ready to begin stage " + stageNumber + "?");
+                }
                 timer.start();
             }
             
@@ -270,10 +276,7 @@ public class window extends JPanel implements ActionListener {
                 if(((m.getX()+(m.getImgW()/2)) > (enemyReal[j].getX()-(10/2)) && (m.getX()-(m.getImgW()/2)) < (enemyReal[j].getX()+(150/2))) && 
                         ((m.getY()+(m.getImgH()/2)) > (enemyReal[j].getY()-(100/2)) && (m.getY()-(m.getImgH()/2)) < (enemyReal[j].getY()+(100/2)))){
                     enemyReal[j].hit(1);
-                    System.out.println("w " + enemyReal[j].getImgW());
-                    System.out.println("h " + enemyReal[j].getImgH());
                     if(enemyReal[j].getHealth() <= 0){
-                        System.out.println("Dead");
                         enemyReal[j].setImage("enemy_Sprites/goblin/ongroundGob.gif");
                     }
                     
@@ -309,12 +312,11 @@ public class window extends JPanel implements ActionListener {
                 if(player1.getHealth() <= 0){
                     JOptionPane.showMessageDialog(null, "You have fought bravely but it was not enough. \n"
                                                       + "You fell trying to complete Stage: " + stageNumber + "\n"
-                                                      + "YOU LOSE" );
+                                                      + "YOU LOSE");
                     System.exit(0);
                 }
             }
         }
-        
         
         player1.move();
         for(int enemyFocus = 0; enemyFocus < enemyCount; enemyFocus++){
@@ -362,15 +364,32 @@ public class window extends JPanel implements ActionListener {
         
     }
     
-    final public void newlevel(player x, int oldPlayerY, int enemyCount){
+    final public void newLevel(player x, int oldPlayerY, int enemyCount){
         
         player1 = x;
         player1.setX(40);
         player1.setY(oldPlayerY);
-        System.err.println(enemyCount);
+//        System.err.println(enemyCount);
         for (int i = 0; i < enemyCount; i++){
             enemyReal[i] = new enemy(5);
         }
+        
+        try {                
+           image = ImageIO.read(new File("src\\ragnarok\\back1.png"));
+        } catch (IOException ex) {
+
+        }
+    }
+    
+    final public void newBossLevel(player x, int oldPlayerY, int enemyCount){
+        
+        player1 = x;
+        player1.setX(40);
+        player1.setY(oldPlayerY);
+        loki[0] = new boss(10);
+//        for (int i = 0; i < enemyCount; i++){
+//            enemyReal[i] = new enemy(5);
+//        }
         
         try {                
            image = ImageIO.read(new File("src\\ragnarok\\back1.png"));
