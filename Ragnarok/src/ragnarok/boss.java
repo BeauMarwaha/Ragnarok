@@ -11,7 +11,7 @@ import javax.swing.SwingWorker;
  * @author Beau Marwaha
  */
 public class boss {
-    private String walkL = "enemy_Sprites/goblin/walkGob.gif";
+    private String mainPic = "enemy_Sprites/loki/faceL.jpg";
     
     Random gen = new Random();
     
@@ -26,10 +26,10 @@ public class boss {
     private Image image;
 
     public boss(int health) {
-        ImageIcon ii = new ImageIcon(this.getClass().getResource(walkL));
+        ImageIcon ii = new ImageIcon(this.getClass().getResource(mainPic));
         image = ii.getImage();
         x = 600;
-        y = gen.nextInt(500);
+        y = 250;
         this.health = health;
         dead = false;
     }

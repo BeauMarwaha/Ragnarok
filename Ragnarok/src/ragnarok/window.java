@@ -14,13 +14,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
-import javax.swing.AbstractAction;
-import javax.swing.ActionMap;
-import javax.swing.InputMap;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.KeyStroke;
-import javax.swing.SwingWorker;
 import javax.swing.Timer;
 
 /**
@@ -36,6 +31,7 @@ public class window extends JPanel implements ActionListener {
     
     private int stageNumber = 1;
     private int enemyCount;
+    private int bossCount = 0;
     
     private BufferedImage image;
     
@@ -67,140 +63,6 @@ public class window extends JPanel implements ActionListener {
         timer = new Timer(0, this);
         timer.start();
         
-        
-        
-        
-//        InputMap im = getInputMap(WHEN_IN_FOCUSED_WINDOW);
-//        ActionMap am = getActionMap();
-
-        // Key controls...
-//        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_W, 0, false), "upPressed");
-//        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_S, 0, false), "downPressed");
-//        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_A, 0, false), "leftPressed");
-//        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_D, 0, false), "rightPressed");
-//        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_W, 0, true), "upReleased");
-//        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_S, 0, true), "downReleased");
-//        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_A, 0, true), "leftReleased");
-//        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_D, 0, true), "rightReleased");
-        
-//        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0, false), "upFirePressed");
-//        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0, false), "downFirePressed");
-//        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0, false), "leftFirePressed");
-//        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0, false), "rightFirePressed");
-
-//        am.put("upPressed", new AbstractAction() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                if(player1.getY() > 0){
-//                    player1.setdy(-2);
-//                }else{
-//                    player1.setY(0);
-//                    player1.setdy(0);
-//                }
-//            }
-//
-//        });
-//        
-//        am.put("upReleased", new AbstractAction() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                if(player1.getY() > 0){
-//                    player1.setdy(0);
-//                }else{
-//                    player1.setY(0);
-//                    player1.setdy(0);
-//                }
-//            }
-//
-//        });
-//        
-//        am.put("downPressed", new AbstractAction() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                if(player1.getY() < 700){
-//                    player1.setdy(2);
-//                }else{
-//                    player1.setY(570);
-//                    player1.setdy(0);
-//                }
-//            }
-//
-//        });
-//        
-//        am.put("downReleased", new AbstractAction() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                if(player1.getY() < 700){
-//                    player1.setdy(0);
-//                }else{
-//                    player1.setY(570);
-//                    player1.setdy(0);
-//                }
-//            }
-//
-//        });
-//        
-//        am.put("leftPressed", new AbstractAction() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                if(player1.getX() > 0){
-//                    player1.setdx(-2);
-//                }else{
-//                    player1.setX(0);
-//                    player1.setdx(0);
-//                }
-//                player1.setImage("viking_Sprites/walkingB.gif");
-//            }
-//
-//        });
-//        
-//        am.put("leftReleased", new AbstractAction() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                if(player1.getX() > 0){
-//                    player1.setdx(0);
-//                }else{
-//                    player1.setX(0);
-//                    player1.setdx(0);
-//                }
-//            }
-//
-//        });
-//        
-//        am.put("rightPressed", new AbstractAction() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                if(player1.getX() < 900){
-//                    player1.setdx(2);
-//                }else{
-//                    player1.setX(800);
-//                    player1.setdx(0);
-//                }
-//                player1.setImage("viking_Sprites/walking.gif");
-//            }
-//
-//        });
-//        
-//        am.put("rightReleased", new AbstractAction() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                if(player1.getX() < 900){
-//                    player1.setdx(0);
-//                }else{
-//                    player1.setX(800);
-//                    player1.setdx(0);
-//                }
-//            }
-//
-//        });
-        
-//        am.put("upFireReleased", new AbstractAction() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                player1.fireUp();
-//            }
-//
-//        });
     }
 
 
@@ -240,12 +102,14 @@ public class window extends JPanel implements ActionListener {
                 timer.stop();
                 g2d.dispose();
                 stageNumber += 1;
-                enemyCount += 1;
+                //enemyCount += 1;
                 newLevelTime = false;
                 ms.removeAll(ms);
                 msd.removeAll(msd);
                 if(stageNumber == 5){
-                    
+                    newBossLevel(player1, player1.getY(), 0);
+                    JOptionPane.showMessageDialog(null, "You have reached the layer of the trickster \n" + 
+                                                        "Loki, prepare to face in him in Mortal Combat");
                 }else{
                     newLevel(player1, player1.getY(), enemyCount);
                     JOptionPane.showMessageDialog(null, "Ready to begin stage " + stageNumber + "?");
@@ -298,11 +162,20 @@ public class window extends JPanel implements ActionListener {
             if(enemyReal[j].getHealth() <= 0){
                 deadCount += 1;
             }
-            if (deadCount == enemyCount){
+            if (deadCount == enemyCount && stageNumber != 5){
                 newLevelTime = true;
             }
         }
         deadCount = 0;
+        
+        if (stageNumber == 5){
+            if(loki[0].getHealth() == 0){
+                JOptionPane.showMessageDialog(null, "Excellent work Forseti. You have defeated "
+                                                  + "Loki and avenged your father. "
+                                                  + "YOU WIN!");
+                System.exit(0);
+            }
+        }
         
         for (int i = 0; i < enemyCount; i++){
             if(((player1.getX()+(player1.getImgW()/2)) > (enemyReal[i].getX()-(10/2)) && (player1.getX()-(player1.getImgW()/2)) < (enemyReal[i].getX()+(150/2))) && 
@@ -361,7 +234,9 @@ public class window extends JPanel implements ActionListener {
         for (int i = 0; i < enemyCount; i++){
              g2d.drawImage(enemyReal[i].getImage(), (int)Math.round(enemyReal[i].getX()), (int)Math.round(enemyReal[i].getY()), this);
         }
-        
+        for (int i = 0; i < bossCount; i++){
+             g2d.drawImage(enemyReal[i].getImage(), (int)Math.round(enemyReal[i].getX()), (int)Math.round(enemyReal[i].getY()), this);
+        }
     }
     
     final public void newLevel(player x, int oldPlayerY, int enemyCount){
@@ -369,7 +244,6 @@ public class window extends JPanel implements ActionListener {
         player1 = x;
         player1.setX(40);
         player1.setY(oldPlayerY);
-//        System.err.println(enemyCount);
         for (int i = 0; i < enemyCount; i++){
             enemyReal[i] = new enemy(5);
         }
@@ -386,13 +260,12 @@ public class window extends JPanel implements ActionListener {
         player1 = x;
         player1.setX(40);
         player1.setY(oldPlayerY);
+        this.enemyCount = 0;
+        bossCount = 1;
         loki[0] = new boss(10);
-//        for (int i = 0; i < enemyCount; i++){
-//            enemyReal[i] = new enemy(5);
-//        }
         
         try {                
-           image = ImageIO.read(new File("src\\ragnarok\\back1.png"));
+           image = ImageIO.read(new File("src\\ragnarok\\back2.png"));
         } catch (IOException ex) {
 
         }
