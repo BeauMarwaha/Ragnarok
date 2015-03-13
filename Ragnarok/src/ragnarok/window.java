@@ -19,14 +19,13 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 /**
- *
  * @author Beau Marwaha
  */
 public class window extends JPanel implements ActionListener {
 
     private Timer timer;
     private player player1;
-    private boss[] loki = new boss[2];
+    private boss[] loki = new boss[1];
     private enemy[] enemyReal = new enemy[100];
     
     private int stageNumber = 1;
@@ -52,7 +51,7 @@ public class window extends JPanel implements ActionListener {
         this.enemyCount = enemyCount;
         
         try {                
-           image = ImageIO.read(new File("src\\ragnarok\\mainback.jpg"));
+           image = ImageIO.read(new File("src\\ragnarok\\backgrounds\\back1.jpg"));
         } catch (IOException ex) {
 
         }
@@ -73,6 +72,7 @@ public class window extends JPanel implements ActionListener {
             g.drawImage(image, 0, 0, null);
             g2d.drawImage(player1.getImage(), player1.getX(), player1.getY(), this);
             setEnemies(g2d);
+            
             
             if(player1.getX() < 0){
                 player1.setX(0);
@@ -107,12 +107,12 @@ public class window extends JPanel implements ActionListener {
                 ms.removeAll(ms);
                 msd.removeAll(msd);
                 if(stageNumber == 5){
-                    newBossLevel(player1, player1.getY(), 0);
                     JOptionPane.showMessageDialog(null, "You have reached the layer of the trickster \n" + 
                                                         "Loki, prepare to face in him in Mortal Combat");
+                    newBossLevel(player1, player1.getY(), 0);
                 }else{
-                    newLevel(player1, player1.getY(), enemyCount);
                     JOptionPane.showMessageDialog(null, "Ready to begin stage " + stageNumber + "?");
+                    newLevel(player1, player1.getY(), enemyCount);
                 }
                 timer.start();
             }
@@ -136,24 +136,26 @@ public class window extends JPanel implements ActionListener {
                 m.moveDown();
             }
             
-            hitCheck: for (int j = 0; j < enemyCount; j++){
-                if(((m.getX()+(m.getImgW()/2)) > (enemyReal[j].getX()-(10/2)) && (m.getX()-(m.getImgW()/2)) < (enemyReal[j].getX()+(150/2))) && 
-                        ((m.getY()+(m.getImgH()/2)) > (enemyReal[j].getY()-(100/2)) && (m.getY()-(m.getImgH()/2)) < (enemyReal[j].getY()+(100/2)))){
-                    enemyReal[j].hit(1);
-                    if(enemyReal[j].getHealth() <= 0){
-                        enemyReal[j].setImage("enemy_Sprites/goblin/ongroundGob.gif");
-                    }
-                    
-                    try {
-                        if (ms.get(i) != null){
-                            ms.remove(i);
-                            msd.remove(i);
-                            break hitCheck;
+            if (stageNumber != 5){
+                hitCheck: for (int j = 0; j < enemyCount; j++){
+                    if(((m.getX()+(m.getImgW()/2)) > (enemyReal[j].getX()-(10/2)) && (m.getX()-(m.getImgW()/2)) < (enemyReal[j].getX()+(150/2))) && 
+                            ((m.getY()+(m.getImgH()/2)) > (enemyReal[j].getY()-(100/2)) && (m.getY()-(m.getImgH()/2)) < (enemyReal[j].getY()+(100/2)))){
+                        enemyReal[j].hit(1);
+                        if(enemyReal[j].getHealth() <= 0){
+                            enemyReal[j].setImage("enemy_Sprites/goblin/ongroundGob.gif");
                         }
-                    } catch ( IndexOutOfBoundsException b ) {
-                        
+
+                        try {
+                            if (ms.get(i) != null){
+                                ms.remove(i);
+                                msd.remove(i);
+                                break hitCheck;
+                            }
+                        } catch ( IndexOutOfBoundsException b ) {
+
+                        }
+
                     }
-                    
                 }
             }
         }
@@ -177,34 +179,37 @@ public class window extends JPanel implements ActionListener {
             }
         }
         
-        for (int i = 0; i < enemyCount; i++){
-            if(((player1.getX()+(player1.getImgW()/2)) > (enemyReal[i].getX()-(10/2)) && (player1.getX()-(player1.getImgW()/2)) < (enemyReal[i].getX()+(150/2))) && 
-            ((player1.getY()+(player1.getImgH()/2)) > (enemyReal[i].getY()-(100/2)) && (player1.getY()-(player1.getImgH()/2)) < (enemyReal[i].getY()+(100/2)))){
-                player1.hit(1);
-                enemyReal[i].hit(0);
-                if(player1.getHealth() <= 0){
-                    JOptionPane.showMessageDialog(null, "You have fought bravely but it was not enough. \n"
-                                                      + "You fell trying to complete Stage: " + stageNumber + "\n"
-                                                      + "YOU LOSE");
-                    System.exit(0);
+        if (stageNumber != 5){
+            for (int i = 0; i < enemyCount; i++){
+                if(((player1.getX()+(player1.getImgW()/2)) > (enemyReal[i].getX()-(10/2)) && (player1.getX()-(player1.getImgW()/2)) < (enemyReal[i].getX()+(150/2))) && 
+                ((player1.getY()+(player1.getImgH()/2)) > (enemyReal[i].getY()-(100/2)) && (player1.getY()-(player1.getImgH()/2)) < (enemyReal[i].getY()+(100/2)))){
+                    player1.hit(1);
+                    enemyReal[i].hit(0);
+                    if(player1.getHealth() <= 0){
+                        JOptionPane.showMessageDialog(null, "You have fought bravely but it was not enough. \n"
+                                                          + "You fell trying to complete Stage: " + stageNumber + "\n"
+                                                          + "YOU LOSE");
+                        System.exit(0);
+                    }
                 }
             }
-        }
-        
-        player1.move();
-        for(int enemyFocus = 0; enemyFocus < enemyCount; enemyFocus++){
-            for(int enemyChecking = 0; enemyChecking < enemyCount; enemyChecking++){
-                if (enemyFocus != enemyChecking){
-                    if(collision(enemyReal[enemyChecking].getX(), enemyReal[enemyChecking].getY(), enemyReal[enemyFocus].getX(), enemyReal[enemyFocus].getY(), enemyReal[enemyFocus].getImgW(), enemyReal[enemyFocus].getImgH())){
-                        enemyReal[enemyFocus].moveY(player1.getY());
-                        enemyReal[enemyFocus].moveX(player1.getX());
-                    }else{
-                        enemyReal[enemyFocus].moveY(0);
-                        enemyReal[enemyFocus].moveX(0);
+            
+            for(int enemyFocus = 0; enemyFocus < enemyCount; enemyFocus++){
+                for(int enemyChecking = 0; enemyChecking < enemyCount; enemyChecking++){
+                    if (enemyFocus != enemyChecking){
+                        if(collision(enemyReal[enemyChecking].getX(), enemyReal[enemyChecking].getY(), enemyReal[enemyFocus].getX(), enemyReal[enemyFocus].getY(), enemyReal[enemyFocus].getImgW(), enemyReal[enemyFocus].getImgH())){
+                            enemyReal[enemyFocus].moveY(player1.getY());
+                            enemyReal[enemyFocus].moveX(player1.getX());
+                        }else{
+                            enemyReal[enemyFocus].moveY(0);
+                            enemyReal[enemyFocus].moveX(0);
+                        }
                     }
                 }
             }
         }
+        player1.move();
+        
         repaint();  
     }
     
@@ -232,10 +237,10 @@ public class window extends JPanel implements ActionListener {
     
     public void setEnemies(Graphics2D g2d){
         for (int i = 0; i < enemyCount; i++){
-             g2d.drawImage(enemyReal[i].getImage(), (int)Math.round(enemyReal[i].getX()), (int)Math.round(enemyReal[i].getY()), this);
+            g2d.drawImage(enemyReal[i].getImage(), (int)Math.round(enemyReal[i].getX()), (int)Math.round(enemyReal[i].getY()), this);
         }
         for (int i = 0; i < bossCount; i++){
-             g2d.drawImage(enemyReal[i].getImage(), (int)Math.round(enemyReal[i].getX()), (int)Math.round(enemyReal[i].getY()), this);
+            g2d.drawImage(loki[i].getImage(), (int)Math.round(loki[i].getX()), (int)Math.round(loki[i].getY()), this);
         }
     }
     
@@ -249,7 +254,7 @@ public class window extends JPanel implements ActionListener {
         }
         
         try {                
-           image = ImageIO.read(new File("src\\ragnarok\\back1.png"));
+           image = ImageIO.read(new File("src\\ragnarok\\backgrounds\\back1.png"));
         } catch (IOException ex) {
 
         }
@@ -265,7 +270,7 @@ public class window extends JPanel implements ActionListener {
         loki[0] = new boss(10);
         
         try {                
-           image = ImageIO.read(new File("src\\ragnarok\\back2.png"));
+           image = ImageIO.read(new File("src\\ragnarok\\backgrounds\\back2.png"));
         } catch (IOException ex) {
 
         }

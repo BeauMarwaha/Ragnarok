@@ -15,7 +15,7 @@ import javax.swing.JPanel;
  */
 public class mainMenu extends JPanel implements MouseListener {
     
-    ImageIcon image = new ImageIcon("src\\ragnarok\\mainback.jpg");
+    ImageIcon image = new ImageIcon("src\\ragnarok\\backgrounds\\mainback.jpg");
     
     boolean start;
     
@@ -39,7 +39,6 @@ public class mainMenu extends JPanel implements MouseListener {
     public void mouseClicked(MouseEvent e) {
         if(e.getSource() == pic){
             start = true;
-            System.out.println("A");
             window.dispose();
             JOptionPane.showMessageDialog(null, "You are the Norse god Forseti, son of Baldur who is the son \n"
                                               + "of Odin. Your father Baldur has been killed due to the misdeeds \n"

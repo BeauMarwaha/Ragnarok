@@ -8,6 +8,9 @@ package ragnarok;
 
 /*
  * TO DO:
+ * create loki throwing object
+ * enemy pictures change fix
+ * playr picture change fix
  * collision detection between enemies
  * implement final boss and end game
  * add items for player 

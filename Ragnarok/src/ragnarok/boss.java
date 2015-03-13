@@ -2,6 +2,7 @@
 package ragnarok;
 
 import java.awt.Image;
+import java.util.ArrayList;
 import java.util.Random;
 import javax.swing.ImageIcon;
 import javax.swing.SwingWorker;
@@ -11,11 +12,12 @@ import javax.swing.SwingWorker;
  * @author Beau Marwaha
  */
 public class boss {
-    private String mainPic = "enemy_Sprites/loki/faceL.jpg";
+    private String mainPic = "enemy_Sprites/loki/faceL.png";
     
     Random gen = new Random();
     
-    private boolean knockback = false;
+    private ArrayList missiles;
+    private ArrayList missilesDirections;
     
     private double dx;
     private double dy;
@@ -28,8 +30,8 @@ public class boss {
     public boss(int health) {
         ImageIcon ii = new ImageIcon(this.getClass().getResource(mainPic));
         image = ii.getImage();
-        x = 600;
-        y = 250;
+        x = 800;
+        y = 275;
         this.health = health;
         dead = false;
     }
@@ -47,45 +49,6 @@ public class boss {
                 y = 5000;
             }
         }.execute();
-    }
-
-
-    public void moveX(int playerX) {
-        if(!dead){
-            if(playerX > x){
-                dx = .3;
-            }else if(playerX < x){
-                dx = -.3;
-            }
-            if(!knockback){
-                x += dx;
-            }else{
-                x += dx * -1;
-            }
-        }
-    }
-    
-    public void moveY(int playerY) {
-        if(!dead){
-            if(playerY > y){
-                dy = .3;
-            }else if(playerY < y){
-                dy = -.3;
-            }
-            if(!knockback){
-                y += dy;
-            }else{
-                y += dy * -1;
-            }
-        }
-    }
-    
-    public void setdx(int dx) {
-        this.dx = dx;
-    }
-
-    public void setdy(int dy) {
-        this.dy = dy;
     }
     
     public void setX(int x) {
@@ -120,24 +83,29 @@ public class boss {
         return image;
     }
     
+    public ArrayList getMissiles() {
+        return missiles;
+    }
+    
+    public ArrayList getMissilesDirections() {
+        return missilesDirections;
+    }
+    
+    public void fireLeft() {
+        new SwingWorker() {
+            @Override protected Object doInBackground() throws Exception {
+                Thread.sleep(165);
+                return null;
+            }
+            @Override protected void done() {
+                //need to create new throwing object
+                missiles.add(new axe(x - image.getWidth(null)/100, y + image.getHeight(null)/4));
+                missilesDirections.add(new String("left"));
+            }
+        }.execute();
+    }
+    
     public void hit(int damage){
         health -= damage;
-        if(health <= 0){
-            setImage("enemy_Sprites/goblin/ongroundGob.gif");
-            dead = true;
-        }
-        if(!dead){
-            knockback = true;
-            new SwingWorker() {
-                @Override protected Object doInBackground() throws Exception {
-                    Thread.sleep(500);
-                    return null;
-                }
-                @Override protected void done() {
-                    knockback = false;
-                }
-            }.execute();
-        }
-        
     }
 }
