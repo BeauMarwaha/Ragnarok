@@ -248,29 +248,13 @@ public class player {
     }
     
     public void fireLeft() {
-        new SwingWorker() {
-            @Override protected Object doInBackground() throws Exception {
-                Thread.sleep(165);
-                return null;
-            }
-            @Override protected void done() {
-                missiles.add(new axe(x - image.getWidth(null)/100, y + image.getHeight(null)/4));
-                missilesDirections.add(new String("left"));
-            }
-        }.execute();
+        missiles.add(new axe(x - image.getWidth(null)/100, y + image.getHeight(null)/4));
+        missilesDirections.add(new String("left"));
     }
     
     public void fireRight() {
-        new SwingWorker() {
-            @Override protected Object doInBackground() throws Exception {
-                Thread.sleep(165);
-                return null;
-            }
-            @Override protected void done() {
-                missiles.add(new axe(x + image.getWidth(null)/2, y + image.getHeight(null)/4));
-                missilesDirections.add(new String("right"));
-            }
-        }.execute();
+        missiles.add(new axe(x + image.getWidth(null)/2, y + image.getHeight(null)/4));
+        missilesDirections.add(new String("right"));
     }
 
     public void keyReleased(KeyEvent e) {

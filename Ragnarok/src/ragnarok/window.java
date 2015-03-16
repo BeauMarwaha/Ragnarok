@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingWorker;
 import javax.swing.Timer;
 
 /**
@@ -32,12 +33,17 @@ public class window extends JPanel implements ActionListener {
     private int enemyCount;
     private int bossCount = 0;
     
+    private int load = 0;
+    
     private BufferedImage image;
     
     private boolean newLevelTime = false;
     
     ArrayList ms;
     ArrayList msd;
+    
+    ArrayList msE;
+    ArrayList msdE;
     
     int z = 0;
 
@@ -73,7 +79,6 @@ public class window extends JPanel implements ActionListener {
             g2d.drawImage(player1.getImage(), player1.getX(), player1.getY(), this);
             setEnemies(g2d);
             
-            
             if(player1.getX() < 0){
                 player1.setX(0);
             }
@@ -95,13 +100,12 @@ public class window extends JPanel implements ActionListener {
                 axe m = (axe) ms.get(i);
                 g2d.drawImage(m.getImage(), m.getX(), m.getY(), this);
             }
-            Toolkit.getDefaultToolkit().sync();
-            g.dispose();
             
             if(newLevelTime){
                 timer.stop();
                 g2d.dispose();
-                stageNumber += 1;
+//                stageNumber += 1;
+                stageNumber = 5;
                 //enemyCount += 1;
                 newLevelTime = false;
                 ms.removeAll(ms);
@@ -110,6 +114,7 @@ public class window extends JPanel implements ActionListener {
                     JOptionPane.showMessageDialog(null, "You have reached the layer of the trickster \n" + 
                                                         "Loki, prepare to face in him in Mortal Combat");
                     newBossLevel(player1, player1.getY(), 0);
+                    
                 }else{
                     JOptionPane.showMessageDialog(null, "Ready to begin stage " + stageNumber + "?");
                     newLevel(player1, player1.getY(), enemyCount);
@@ -117,6 +122,16 @@ public class window extends JPanel implements ActionListener {
                 timer.start();
             }
             
+            if(stageNumber == 5 && load >= 1){
+                msE = loki[0].getMissiles();
+                for (int i = 0; i < msE.size(); i++ ) {
+                    firebolt m = (firebolt)msE.get(i);
+                    g2d.drawImage(m.getImage(), m.getX(), m.getY(), this);
+                }
+            }
+            
+            Toolkit.getDefaultToolkit().sync();
+            g.dispose();
     }
 
 
@@ -124,8 +139,55 @@ public class window extends JPanel implements ActionListener {
         ms = player1.getMissiles();
         msd = player1.getMissilesDirections();
         
+        if (stageNumber == 5){
+            new SwingWorker() {
+                @Override protected Object doInBackground() throws Exception {
+                    Thread.sleep(5000);
+                    return null;
+                }
+                @Override protected void done() {
+                    loki[0].fireLeft();
+                }
+            }.execute();
+            
+            msE = loki[0].getMissiles();
+            
+            for (int i = 0; i < msE.size(); i++) {
+                firebolt m = (firebolt)msE.get(i);
+                if(m.isVisible()){
+                    m.moveLeft();
+                }else{
+                    msE.remove(i);
+                    msdE.remove(i);
+                }
+
+//                if (stageNumber != 5){
+//                    hitCheck: for (int j = 0; j < enemyCount; j++){
+//                        if(((m.getX()+(m.getImgW()/2)) > (enemyReal[j].getX()-(10/2)) && (m.getX()-(m.getImgW()/2)) < (enemyReal[j].getX()+(150/2))) && 
+//                                ((m.getY()+(m.getImgH()/2)) > (enemyReal[j].getY()-(100/2)) && (m.getY()-(m.getImgH()/2)) < (enemyReal[j].getY()+(100/2)))){
+//                            enemyReal[j].hit(1);
+//                            if(enemyReal[j].getHealth() <= 0){
+//                                enemyReal[j].setImage("enemy_Sprites/goblin/ongroundGob.gif");
+//                            }
+//
+//                            try {
+//                                if (ms.get(i) != null){
+//                                    ms.remove(i);
+//                                    msd.remove(i);
+//                                    break hitCheck;
+//                                }
+//                            } catch ( IndexOutOfBoundsException b ) {
+//
+//                            }
+//
+//                        }
+//                    }
+//                }
+            }
+        }
+        
         for (int i = 0; i < ms.size(); i++) {
-            axe m = (axe) ms.get(i);
+            axe m = (axe)ms.get(i);
             if(m.isVisible() && msd.get(i).equals("left")){
                 m.moveLeft();
             }else if(m.isVisible() && msd.get(i).equals("right")){
@@ -134,6 +196,9 @@ public class window extends JPanel implements ActionListener {
                 m.moveUp();
             }else if(m.isVisible() && msd.get(i).equals("down")){
                 m.moveDown();
+            }else{
+                ms.remove(i);
+                msd.remove(i);
             }
             
             if (stageNumber != 5){
@@ -268,7 +333,7 @@ public class window extends JPanel implements ActionListener {
         this.enemyCount = 0;
         bossCount = 1;
         loki[0] = new boss(10);
-        
+        load += 1;
         try {                
            image = ImageIO.read(new File("src\\ragnarok\\backgrounds\\back2.png"));
         } catch (IOException ex) {

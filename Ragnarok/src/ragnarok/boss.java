@@ -17,7 +17,6 @@ public class boss {
     Random gen = new Random();
     
     private ArrayList missiles;
-    private ArrayList missilesDirections;
     
     private double dx;
     private double dy;
@@ -34,6 +33,7 @@ public class boss {
         y = 275;
         this.health = health;
         dead = false;
+        missiles = new ArrayList();
     }
     
     public void setImage(String pic) {
@@ -87,22 +87,8 @@ public class boss {
         return missiles;
     }
     
-    public ArrayList getMissilesDirections() {
-        return missilesDirections;
-    }
-    
     public void fireLeft() {
-        new SwingWorker() {
-            @Override protected Object doInBackground() throws Exception {
-                Thread.sleep(165);
-                return null;
-            }
-            @Override protected void done() {
-                //need to create new throwing object
-                missiles.add(new axe(x - image.getWidth(null)/100, y + image.getHeight(null)/4));
-                missilesDirections.add(new String("left"));
-            }
-        }.execute();
+        missiles.add(new firebolt(775, gen.nextInt(700)));
     }
     
     public void hit(int damage){
