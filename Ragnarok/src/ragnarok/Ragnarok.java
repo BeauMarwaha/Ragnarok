@@ -8,14 +8,13 @@ package ragnarok;
 
 /*
  * TO DO:
- * create loki throwing object
+ * boss killing
  * enemy pictures change fix
- * playr picture change fix
+ * player picture change fix
+ * hit detection on top of player
  * collision detection between enemies
- * implement final boss and end game
- * add items for player 
- * enemy track on player pos (new enemy move AI
- * character mopves too fast on home comp and with many enemies
+ * enemy track on player pos (new enemy move AI)
+ * sprite movement speed
  * ????
  * profit
  */

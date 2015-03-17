@@ -20,7 +20,7 @@ public class firebolt{
     private final int MISSILE_SPEED = 2;
 
     public firebolt(int x, int y) {
-        ImageIcon ii = new ImageIcon(this.getClass().getResource("hammerspin.gif"));
+        ImageIcon ii = new ImageIcon(this.getClass().getResource("flame.gif"));
         image = ii.getImage();
         visible = true;
         this.x = x;

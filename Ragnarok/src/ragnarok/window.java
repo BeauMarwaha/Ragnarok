@@ -96,6 +96,7 @@ public class window extends JPanel implements ActionListener {
             }
             
             ms = player1.getMissiles();
+            System.out.println(ms.size());
             for (int i = 0; i < ms.size(); i++ ) {
                 axe m = (axe) ms.get(i);
                 g2d.drawImage(m.getImage(), m.getX(), m.getY(), this);
@@ -138,53 +139,6 @@ public class window extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         ms = player1.getMissiles();
         msd = player1.getMissilesDirections();
-        
-        if (stageNumber == 5){
-            new SwingWorker() {
-                @Override protected Object doInBackground() throws Exception {
-                    Thread.sleep(5000);
-                    return null;
-                }
-                @Override protected void done() {
-                    loki[0].fireLeft();
-                }
-            }.execute();
-            
-            msE = loki[0].getMissiles();
-            
-            for (int i = 0; i < msE.size(); i++) {
-                firebolt m = (firebolt)msE.get(i);
-                if(m.isVisible()){
-                    m.moveLeft();
-                }else{
-                    msE.remove(i);
-                    msdE.remove(i);
-                }
-
-//                if (stageNumber != 5){
-//                    hitCheck: for (int j = 0; j < enemyCount; j++){
-//                        if(((m.getX()+(m.getImgW()/2)) > (enemyReal[j].getX()-(10/2)) && (m.getX()-(m.getImgW()/2)) < (enemyReal[j].getX()+(150/2))) && 
-//                                ((m.getY()+(m.getImgH()/2)) > (enemyReal[j].getY()-(100/2)) && (m.getY()-(m.getImgH()/2)) < (enemyReal[j].getY()+(100/2)))){
-//                            enemyReal[j].hit(1);
-//                            if(enemyReal[j].getHealth() <= 0){
-//                                enemyReal[j].setImage("enemy_Sprites/goblin/ongroundGob.gif");
-//                            }
-//
-//                            try {
-//                                if (ms.get(i) != null){
-//                                    ms.remove(i);
-//                                    msd.remove(i);
-//                                    break hitCheck;
-//                                }
-//                            } catch ( IndexOutOfBoundsException b ) {
-//
-//                            }
-//
-//                        }
-//                    }
-//                }
-            }
-        }
         
         for (int i = 0; i < ms.size(); i++) {
             axe m = (axe)ms.get(i);
@@ -237,10 +191,58 @@ public class window extends JPanel implements ActionListener {
         
         if (stageNumber == 5){
             if(loki[0].getHealth() == 0){
+                timer.stop();
                 JOptionPane.showMessageDialog(null, "Excellent work Forseti. You have defeated "
                                                   + "Loki and avenged your father. "
                                                   + "YOU WIN!");
                 System.exit(0);
+            }
+        }
+        
+        if (stageNumber == 5){
+            new SwingWorker() {
+                @Override protected Object doInBackground() throws Exception {
+                    Thread.sleep(5000);
+                    return null;
+                }
+                @Override protected void done() {
+                    loki[0].fireLeft();
+                }
+            }.execute();
+            
+            msE = loki[0].getMissiles();
+            
+            for (int i = 0; i < msE.size(); i++) {
+                firebolt m = (firebolt)msE.get(i);
+                if(m.isVisible()){
+                    m.moveLeft();
+                }else{
+                    try {
+                        if (msE.get(i) != null){
+                            msE.remove(i);
+                            msdE.remove(i);
+                        }
+                    } catch (NullPointerException b ) {}
+                }
+
+                if(((m.getX()+(m.getImgW()/2)) > (player1.getX()-(player1.getImgW()/2)) && (m.getX()-(m.getImgW()/2)) < player1.getX()+(player1.getImgW()/2)) && 
+                    ((m.getY()+(m.getImgH()/2)) > (player1.getY()-(player1.getImgH()/2)) && (m.getY()-(m.getImgH()/2)) <player1.getY()+(player1.getImgH()/2))){
+                    player1.hit(1);
+                    try {
+                        if (msE.get(i) != null){
+                            msE.remove(i);
+                            msdE.remove(i);
+                        }
+                    }catch (NullPointerException b ) {}
+
+                    if(player1.getHealth() <= 0){
+                        timer.stop();
+                        JOptionPane.showMessageDialog(null, "You have fought bravely but it was not enough. \n"
+                                                          + "You fell trying to complete Stage: " + stageNumber + "\n"
+                                                          + "YOU LOSE");
+                        System.exit(0);
+                    }
+                }
             }
         }
         
@@ -251,6 +253,7 @@ public class window extends JPanel implements ActionListener {
                     player1.hit(1);
                     enemyReal[i].hit(0);
                     if(player1.getHealth() <= 0){
+                        timer.stop();
                         JOptionPane.showMessageDialog(null, "You have fought bravely but it was not enough. \n"
                                                           + "You fell trying to complete Stage: " + stageNumber + "\n"
                                                           + "YOU LOSE");
