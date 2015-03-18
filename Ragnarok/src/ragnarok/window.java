@@ -96,7 +96,6 @@ public class window extends JPanel implements ActionListener {
             }
             
             ms = player1.getMissiles();
-            System.out.println(ms.size());
             for (int i = 0; i < ms.size(); i++ ) {
                 axe m = (axe) ms.get(i);
                 g2d.drawImage(m.getImage(), m.getX(), m.getY(), this);
@@ -225,8 +224,8 @@ public class window extends JPanel implements ActionListener {
                     } catch (NullPointerException b ) {}
                 }
 
-                if(((m.getX()+(m.getImgW()/2)) > (player1.getX()-(player1.getImgW()/2)) && (m.getX()-(m.getImgW()/2)) < player1.getX()+(player1.getImgW()/2)) && 
-                    ((m.getY()+(m.getImgH()/2)) > (player1.getY()-(player1.getImgH()/2)) && (m.getY()-(m.getImgH()/2)) <player1.getY()+(player1.getImgH()/2))){
+                if(((m.getX()+(m.getImgW()/2)) > (player1.getX()) && (m.getX()-(m.getImgW()/2)) < player1.getX()+(player1.getImgW()/2)) && 
+                    ((m.getY()+(m.getImgH()/2)) > (player1.getY()) && (m.getY()-(m.getImgH()/2)) <player1.getY()+(player1.getImgH()/2))){
                     player1.hit(1);
                     try {
                         if (msE.get(i) != null){
@@ -290,6 +289,7 @@ public class window extends JPanel implements ActionListener {
         
         @Override
         public void keyPressed(KeyEvent e) {
+            System.out.println("B" + player1.getHealth());
             player1.keyPressed(e);
         }
     }

@@ -117,7 +117,7 @@ public class player {
 
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
-        
+        System.out.println(n+"D" + getHealth());
         if (n == 2){
             n=1;
             if (key == KeyEvent.VK_LEFT) {
@@ -134,7 +134,7 @@ public class player {
                     }
                 }.execute();
             }
-
+            
             if(key == KeyEvent.VK_RIGHT){
                 final Image pic = image;
                 fireRight();

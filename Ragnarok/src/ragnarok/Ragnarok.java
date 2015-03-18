@@ -18,6 +18,9 @@ package ragnarok;
  * ????
  * profit
  */
+
+//Problem with boss firing is wait method not reseting fire rate
+//need to figure out why game running real slow on boss level to fix the problem
 import javax.swing.JFrame;
 
 public class Ragnarok extends JFrame {
