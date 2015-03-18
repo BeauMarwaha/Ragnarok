@@ -32,21 +32,16 @@ public class window extends JPanel implements ActionListener {
     private int stageNumber = 1;
     private int enemyCount;
     private int bossCount = 0;
-    
     private int load = 0;
-    
-    private BufferedImage image;
     
     private boolean newLevelTime = false;
     
+    private BufferedImage image;
     ArrayList ms;
     ArrayList msd;
-    
     ArrayList msE;
     ArrayList msdE;
     
-    int z = 0;
-
     public window(int enemyCount) {
         
         addKeyListener(new TAdapter());
@@ -69,7 +64,6 @@ public class window extends JPanel implements ActionListener {
         timer.start();
         
     }
-
 
     public void paint(Graphics g) {
             super.paint(g);
@@ -104,20 +98,21 @@ public class window extends JPanel implements ActionListener {
             if(newLevelTime){
                 timer.stop();
                 g2d.dispose();
-//                stageNumber += 1;
-                stageNumber = 5;
-                //enemyCount += 1;
+                stageNumber += 4;
+                enemyCount += 1;
                 newLevelTime = false;
                 ms.removeAll(ms);
                 msd.removeAll(msd);
                 if(stageNumber == 5){
+                    newBossLevel(player1, player1.getY(), 0);
                     JOptionPane.showMessageDialog(null, "You have reached the layer of the trickster \n" + 
                                                         "Loki, prepare to face in him in Mortal Combat");
-                    newBossLevel(player1, player1.getY(), 0);
-                    
+                    JOptionPane.showMessageDialog(null, "Watch out! Loki's foul magik has impaired you, \n" + 
+                                                        "Your speed and attacking abilities have been \n" +
+                                                        "severly impacted.");
                 }else{
-                    JOptionPane.showMessageDialog(null, "Ready to begin stage " + stageNumber + "?");
                     newLevel(player1, player1.getY(), enemyCount);
+                    JOptionPane.showMessageDialog(null, "Ready to begin stage " + stageNumber + "?");
                 }
                 timer.start();
             }
@@ -132,8 +127,20 @@ public class window extends JPanel implements ActionListener {
             
             Toolkit.getDefaultToolkit().sync();
             g.dispose();
+            
+            if(stageNumber == 5 && player1.getN() != 2){
+                new SwingWorker() {
+                    @Override protected Object doInBackground() throws Exception {
+                        Thread.sleep(700);
+                        return null;
+                    }
+                    @Override protected void done() {
+                        player1.setN(2);
+                    }
+                }.execute();
+            }
+            
     }
-
 
     public void actionPerformed(ActionEvent e) {
         ms = player1.getMissiles();
@@ -175,6 +182,28 @@ public class window extends JPanel implements ActionListener {
 
                     }
                 }
+            }else if (stageNumber == 5){
+                if(((m.getX()+(m.getImgW()/2)) > (loki[0].getX()) && (m.getX()-(m.getImgW()/2)) < loki[0].getX()+(loki[0].getImgW()/2)) && 
+                    ((m.getY()+(m.getImgH()/2)) > (loki[0].getY()) && (m.getY()-(m.getImgH()/2)) < loki[0].getY()+(loki[0].getImgH()/2))){
+                    loki[0].hit(1);
+                    try {
+                        if (ms.get(i) != null){
+                            ms.remove(i);
+                            msd.remove(i);
+                        }
+                    } catch ( IndexOutOfBoundsException b ) {
+
+                    }
+
+                }
+                
+                if(loki[0].getHealth() == 0){
+                    timer.stop();
+                    JOptionPane.showMessageDialog(null, "Excellent work Forseti. You have defeated \n"
+                                                      + "Loki and avenged your father. \n"
+                                                      + "YOU WIN!");
+                    System.exit(0);
+                }
             }
         }
         int deadCount = 0;
@@ -188,26 +217,10 @@ public class window extends JPanel implements ActionListener {
         }
         deadCount = 0;
         
-        if (stageNumber == 5){
-            if(loki[0].getHealth() == 0){
-                timer.stop();
-                JOptionPane.showMessageDialog(null, "Excellent work Forseti. You have defeated "
-                                                  + "Loki and avenged your father. "
-                                                  + "YOU WIN!");
-                System.exit(0);
-            }
-        }
+        
         
         if (stageNumber == 5){
-            new SwingWorker() {
-                @Override protected Object doInBackground() throws Exception {
-                    Thread.sleep(5000);
-                    return null;
-                }
-                @Override protected void done() {
-                    loki[0].fireLeft();
-                }
-            }.execute();
+            loki[0].fireLeft();
             
             msE = loki[0].getMissiles();
             
@@ -225,7 +238,7 @@ public class window extends JPanel implements ActionListener {
                 }
 
                 if(((m.getX()+(m.getImgW()/2)) > (player1.getX()) && (m.getX()-(m.getImgW()/2)) < player1.getX()+(player1.getImgW()/2)) && 
-                    ((m.getY()+(m.getImgH()/2)) > (player1.getY()) && (m.getY()-(m.getImgH()/2)) <player1.getY()+(player1.getImgH()/2))){
+                    ((m.getY()+(m.getImgH()/2)) > (player1.getY()) && (m.getY()-(m.getImgH()/2)) < player1.getY()+(player1.getImgH()/2))){
                     player1.hit(1);
                     try {
                         if (msE.get(i) != null){
@@ -289,7 +302,6 @@ public class window extends JPanel implements ActionListener {
         
         @Override
         public void keyPressed(KeyEvent e) {
-            System.out.println("B" + player1.getHealth());
             player1.keyPressed(e);
         }
     }
@@ -335,7 +347,7 @@ public class window extends JPanel implements ActionListener {
         player1.setY(oldPlayerY);
         this.enemyCount = 0;
         bossCount = 1;
-        loki[0] = new boss(10);
+        loki[0] = new boss(20);
         load += 1;
         try {                
            image = ImageIO.read(new File("src\\ragnarok\\backgrounds\\back2.png"));

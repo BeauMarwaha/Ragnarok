@@ -88,7 +88,15 @@ public class boss {
     }
     
     public void fireLeft() {
-        missiles.add(new firebolt(775, gen.nextInt(700)));
+        new SwingWorker() {
+            @Override protected Object doInBackground() throws Exception {
+                Thread.sleep(5000);
+                return null;
+            }
+            @Override protected void done() {
+                missiles.add(new firebolt(775, gen.nextInt(700)));
+            }
+        }.execute();
     }
     
     public void hit(int damage){

@@ -96,6 +96,18 @@ public class player {
         return health;
     }
     
+    public int getFireRate() {
+        return fireRate;
+    }
+    
+    public int getN(){
+        return n;
+    }
+    
+    public void setN(int n) {
+        this.n = n;
+    }
+    
     public void hit(int damage){
         health -= damage;
         if(health <= 0){
@@ -117,7 +129,7 @@ public class player {
 
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
-        System.out.println(n+"D" + getHealth());
+        
         if (n == 2){
             n=1;
             if (key == KeyEvent.VK_LEFT) {
