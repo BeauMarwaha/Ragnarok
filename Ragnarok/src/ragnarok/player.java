@@ -24,6 +24,7 @@ public class player {
     private boolean dead;
     private Image image;
     
+    private boolean moveOveride = false;
     private boolean up = false;
     private boolean down = false;
     private boolean left = false;
@@ -213,6 +214,7 @@ public class player {
                 dx = 0;
             }
             setImage("viking_Sprites/walkingB.gif");
+            moveOveride = true;
         }
 
         if (key == KeyEvent.VK_D) {
@@ -224,6 +226,7 @@ public class player {
                 dx = 0;
             }
             setImage("viking_Sprites/walking.gif");
+            moveOveride = true;
         }
 
         if (key == KeyEvent.VK_W) {
@@ -234,7 +237,10 @@ public class player {
                 y = 0;
                 dy = 0;
             }
-            setImage("viking_Sprites/walking.gif");
+            if(!moveOveride){
+                setImage("viking_Sprites/walking.gif");
+            }
+            
         }
 
         if (key == KeyEvent.VK_S) {
@@ -245,7 +251,9 @@ public class player {
                 y = 570;
                 dy = 0;
             }
-            setImage("viking_Sprites/walkingB.gif");
+            if(!moveOveride){
+                setImage("viking_Sprites/walkingB.gif");
+            }
         }
     }
 
@@ -274,6 +282,7 @@ public class player {
 
         if (key == KeyEvent.VK_A) {
             left = false;
+            moveOveride = false;
             dx = 0;
             if (!right && !down && !up){
                 setImage("viking_Sprites/stanceB.gif");
@@ -282,6 +291,7 @@ public class player {
 
         if (key == KeyEvent.VK_D) {
             right = false;
+            moveOveride = false;
             dx = 0;
             if (!left && !down && !up){
                 setImage("viking_Sprites/stance.gif");
@@ -291,7 +301,7 @@ public class player {
         if (key == KeyEvent.VK_W) {
             up = false;
             dy = 0;
-            if (!left && !down && !left){
+            if (!left && !down && !right){
                 setImage("viking_Sprites/stance.gif");
             }
         }

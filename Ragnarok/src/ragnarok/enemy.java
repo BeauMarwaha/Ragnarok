@@ -11,10 +11,7 @@ import javax.swing.SwingWorker;
  * @author Beau Marwaha
  */
 public class enemy {
-    private String walkL = "enemy_Sprites/goblin/walkGob.gif";
-    private String walkR = "enemy_Sprites/goblin/walkGob.gif";
-    private String attackL = "enemy_Sprites/goblin/walkGob.gif";
-    private String attackR = "enemy_Sprites/goblin/walkGob.gif";
+    private String walkL = "enemy_Sprites/goblin/pauseGob.gif";
     
     Random gen = new Random();
     
@@ -40,19 +37,20 @@ public class enemy {
     public void setImage(String pic) {
         ImageIcon ii = new ImageIcon(this.getClass().getResource(pic));
         image = ii.getImage();
-        new SwingWorker() {
-            @Override protected Object doInBackground() throws Exception {
-                Thread.sleep(1000);
-                return null;
-            }
-            @Override protected void done() {
-                x = 5000;
-                y = 5000;
-            }
-        }.execute();
+        if(health <= 0){
+            new SwingWorker() {
+                @Override protected Object doInBackground() throws Exception {
+                    Thread.sleep(1000);
+                    return null;
+                }
+                @Override protected void done() {
+                    x = 5000;
+                    y = 5000;
+                }
+            }.execute();
+        }
     }
-
-
+ 
     public void moveX(int playerX) {
         if(!dead){
             if(playerX > x){
@@ -64,6 +62,12 @@ public class enemy {
                 x += dx;
             }else{
                 x += dx * -1;
+            }
+            
+            if(dx > 0){
+                setImage("enemy_Sprites/goblin/walkGobR.gif");
+            }else{
+                setImage("enemy_Sprites/goblin/walkGobL.gif");
             }
         }
     }
@@ -126,7 +130,11 @@ public class enemy {
     public void hit(int damage){
         health -= damage;
         if(health <= 0){
-            setImage("enemy_Sprites/goblin/ongroundGob.gif");
+            if(dx > 0){
+                setImage("enemy_Sprites/goblin/deathGobR.gif");
+            }else{
+                setImage("enemy_Sprites/goblin/deathGobL.gif");
+            }
             dead = true;
         }
         if(!dead){

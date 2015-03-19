@@ -98,7 +98,7 @@ public class window extends JPanel implements ActionListener {
             if(newLevelTime){
                 timer.stop();
                 g2d.dispose();
-                stageNumber += 4;
+                stageNumber += 1;
                 enemyCount += 1;
                 newLevelTime = false;
                 ms.removeAll(ms);
@@ -166,9 +166,6 @@ public class window extends JPanel implements ActionListener {
                     if(((m.getX()+(m.getImgW()/2)) > (enemyReal[j].getX()-(10/2)) && (m.getX()-(m.getImgW()/2)) < (enemyReal[j].getX()+(150/2))) && 
                             ((m.getY()+(m.getImgH()/2)) > (enemyReal[j].getY()-(100/2)) && (m.getY()-(m.getImgH()/2)) < (enemyReal[j].getY()+(100/2)))){
                         enemyReal[j].hit(1);
-                        if(enemyReal[j].getHealth() <= 0){
-                            enemyReal[j].setImage("enemy_Sprites/goblin/ongroundGob.gif");
-                        }
 
                         try {
                             if (ms.get(i) != null){
