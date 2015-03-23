@@ -16,6 +16,7 @@ public class enemy {
     Random gen = new Random();
     
     private boolean knockback = false;
+    private boolean attacking = false;
     
     private double dx;
     private double dy;
@@ -149,6 +150,25 @@ public class enemy {
                 }
             }.execute();
         }
-        
+    }
+    
+    public void attack(){
+        if(dx > 0){
+            setImage("enemy_Sprites/goblin/attackGobR.gif");
+        }else{
+            setImage("enemy_Sprites/goblin/attackGobL.gif");
+        }
+        attacking = true;
+        knockback = true;
+        new SwingWorker() {
+            @Override protected Object doInBackground() throws Exception {
+                Thread.sleep(500);
+                return null;
+            }
+            @Override protected void done() {
+                knockback = false;
+                attacking = false;
+            }
+        }.execute();
     }
 }

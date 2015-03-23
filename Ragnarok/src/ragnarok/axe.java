@@ -12,7 +12,7 @@ import javax.swing.ImageIcon;
 public class axe {
 
     private int x, y;
-    private Image image;
+    final private Image IMAGE;
     boolean visible;
 
     private final int BOARD_WIDTH = 950;
@@ -21,7 +21,7 @@ public class axe {
 
     public axe(int x, int y) {
         ImageIcon ii = new ImageIcon(this.getClass().getResource("hammerspin.gif"));
-        image = ii.getImage();
+        IMAGE = ii.getImage();
         visible = true;
         this.x = x;
         this.y = y;
@@ -29,7 +29,7 @@ public class axe {
 
 
     public Image getImage() {
-        return image;
+        return IMAGE;
     }
 
     public int getX() {
@@ -41,11 +41,11 @@ public class axe {
     }
     
     public int getImgW() {
-        return image.getWidth(null);
+        return IMAGE.getWidth(null);
     }
 
     public int getImgH() {
-        return image.getHeight(null);
+        return IMAGE.getHeight(null);
     }
 
     public boolean isVisible() {
@@ -54,25 +54,29 @@ public class axe {
 
     public void moveUp() {
         y -= MISSILE_SPEED;
-        if (x < 0)
+        if (x < 0){
             visible = false;
+        }
     }
     
     public void moveDown() {
         y += MISSILE_SPEED;
-        if (x > BOARD_HEIGHT)
+        if (x > BOARD_HEIGHT){
             visible = false;
+        }
     }
     
     public void moveLeft() {
         x -= MISSILE_SPEED;
-        if (x < 0)
+        if (x < 0){
             visible = false;
+        }
     }
     
     public void moveRight() {
         x += MISSILE_SPEED;
-        if (x > BOARD_WIDTH)
+        if (x > BOARD_WIDTH){
             visible = false;
+        }
     }
 }

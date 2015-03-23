@@ -65,6 +65,7 @@ public class window extends JPanel implements ActionListener {
         
     }
 
+    @Override
     public void paint(Graphics g) {
             super.paint(g);
             Graphics2D g2d = (Graphics2D)g;
@@ -99,7 +100,9 @@ public class window extends JPanel implements ActionListener {
                 timer.stop();
                 g2d.dispose();
                 stageNumber += 1;
-                enemyCount += 1;
+                if(stageNumber%2 == 0){
+                    enemyCount += 1;
+                }
                 newLevelTime = false;
                 ms.removeAll(ms);
                 msd.removeAll(msd);
@@ -142,6 +145,7 @@ public class window extends JPanel implements ActionListener {
             
     }
 
+    @Override
     public void actionPerformed(ActionEvent e) {
         ms = player1.getMissiles();
         msd = player1.getMissilesDirections();
@@ -214,8 +218,6 @@ public class window extends JPanel implements ActionListener {
         }
         deadCount = 0;
         
-        
-        
         if (stageNumber == 5){
             loki[0].fireLeft();
             
@@ -257,10 +259,11 @@ public class window extends JPanel implements ActionListener {
         
         if (stageNumber != 5){
             for (int i = 0; i < enemyCount; i++){
-                if(((player1.getX()+(player1.getImgW()/2)) > (enemyReal[i].getX()-(10/2)) && (player1.getX()-(player1.getImgW()/2)) < (enemyReal[i].getX()+(150/2))) && 
-                ((player1.getY()+(player1.getImgH()/2)) > (enemyReal[i].getY()-(100/2)) && (player1.getY()-(player1.getImgH()/2)) < (enemyReal[i].getY()+(100/2)))){
+                if(((player1.getX()+(player1.getImgW()/2)) > (enemyReal[i].getX()-5) && (player1.getX()-(player1.getImgW()/2)) < (enemyReal[i].getX()+75)) && 
+                ((player1.getY()+(player1.getImgH()/2)) > (enemyReal[i].getY()-50) && (player1.getY()-(player1.getImgH()/2)) < (enemyReal[i].getY()+50))){
                     player1.hit(1);
-                    enemyReal[i].hit(0);
+                    System.out.println("A");
+                    enemyReal[i].attack();
                     if(player1.getHealth() <= 0){
                         timer.stop();
                         JOptionPane.showMessageDialog(null, "You have fought bravely but it was not enough. \n"
@@ -277,6 +280,15 @@ public class window extends JPanel implements ActionListener {
                         if(collision(enemyReal[enemyChecking].getX(), enemyReal[enemyChecking].getY(), enemyReal[enemyFocus].getX(), enemyReal[enemyFocus].getY(), enemyReal[enemyFocus].getImgW(), enemyReal[enemyFocus].getImgH())){
                             enemyReal[enemyFocus].moveY(player1.getY());
                             enemyReal[enemyFocus].moveX(player1.getX());
+                        }else if (enemyReal[enemyFocus].getX() > enemyReal[enemyChecking].getX() && enemyReal[enemyFocus].getY() > enemyReal[enemyChecking].getY() ){
+                            enemyReal[enemyFocus].moveY(1000);
+                            enemyReal[enemyFocus].moveX(1000);
+                        }else if (enemyReal[enemyFocus].getX() < enemyReal[enemyChecking].getX() && enemyReal[enemyFocus].getY() > enemyReal[enemyChecking].getY() ){
+                            enemyReal[enemyFocus].moveY(0);
+                            enemyReal[enemyFocus].moveX(1000);
+                        }else if (enemyReal[enemyFocus].getX() > enemyReal[enemyChecking].getX() && enemyReal[enemyFocus].getY() < enemyReal[enemyChecking].getY() ){
+                            enemyReal[enemyFocus].moveY(1000);
+                            enemyReal[enemyFocus].moveX(0);
                         }else{
                             enemyReal[enemyFocus].moveY(0);
                             enemyReal[enemyFocus].moveX(0);
@@ -327,7 +339,7 @@ public class window extends JPanel implements ActionListener {
         player1.setX(40);
         player1.setY(oldPlayerY);
         for (int i = 0; i < enemyCount; i++){
-            enemyReal[i] = new enemy(5);
+            enemyReal[i] = new enemy(5 + enemyCount-1);
         }
         
         try {                

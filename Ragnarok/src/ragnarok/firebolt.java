@@ -12,16 +12,14 @@ import javax.swing.ImageIcon;
 public class firebolt{
 
     private int x, y;
-    private Image image;
+    final private Image IMAGE;
     boolean visible;
 
-    private final int BOARD_WIDTH = 950;
-    private final int BOARD_HEIGHT = 950;
     private final int MISSILE_SPEED = 2;
 
     public firebolt(int x, int y) {
         ImageIcon ii = new ImageIcon(this.getClass().getResource("flame.gif"));
-        image = ii.getImage();
+        IMAGE = ii.getImage();
         visible = true;
         this.x = x;
         this.y = y;
@@ -29,7 +27,7 @@ public class firebolt{
 
 
     public Image getImage() {
-        return image;
+        return IMAGE;
     }
 
     public int getX() {
@@ -41,11 +39,11 @@ public class firebolt{
     }
     
     public int getImgW() {
-        return image.getWidth(null);
+        return IMAGE.getWidth(null);
     }
 
     public int getImgH() {
-        return image.getHeight(null);
+        return IMAGE.getHeight(null);
     }
 
     public boolean isVisible() {
@@ -54,7 +52,8 @@ public class firebolt{
     
     public void moveLeft() {
         x -= MISSILE_SPEED;
-        if (x < 0)
+        if (x < 0){
             visible = false;
+        }    
     }
 }
