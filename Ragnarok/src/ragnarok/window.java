@@ -262,7 +262,6 @@ public class window extends JPanel implements ActionListener {
                 if(((player1.getX()+(player1.getImgW()/2)) > (enemyReal[i].getX()-5) && (player1.getX()-(player1.getImgW()/2)) < (enemyReal[i].getX()+75)) && 
                 ((player1.getY()+(player1.getImgH()/2)) > (enemyReal[i].getY()-50) && (player1.getY()-(player1.getImgH()/2)) < (enemyReal[i].getY()+50))){
                     player1.hit(1);
-                    System.out.println("A");
                     enemyReal[i].attack();
                     if(player1.getHealth() <= 0){
                         timer.stop();
