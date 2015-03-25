@@ -8,13 +8,12 @@ package ragnarok;
 
 /*
  * TO DO:
- * enemy pictures change fix
- * collision detection between enemies
- * 
- * Future Improvements:
+ *
+ * Possible Future Improvements: 
+ * better collision detection between enemies
  * items for player
- * enemy track on player pos (new enemy move AI)
- * sprite movement speed
+ * enemy track on player pos (new enemy movement AI)
+ * sprite movement speed varies between systems and some levels
  * ????
  * profit
  */

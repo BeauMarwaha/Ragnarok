@@ -320,6 +320,10 @@ public class window extends JPanel implements ActionListener {
             if(y1 > y2 && y1 < y2 + imgH2){
             return false;
             } 
+        }else if(x1 < x2 && x1 > x2 - imgW2){
+            if(y1 < y2 && y1 > y2 - imgH2){
+            return false;
+            } 
         }
         return true;
     }

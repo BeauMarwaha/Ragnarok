@@ -16,7 +16,7 @@ public class enemy {
     Random gen = new Random();
     
     private boolean knockback = false;
-    private boolean attacking = false;
+    private boolean lock = false;
     
     private double dx;
     private double dy;
@@ -36,8 +36,10 @@ public class enemy {
     }
     
     public void setImage(String pic) {
-        ImageIcon ii = new ImageIcon(this.getClass().getResource(pic));
-        image = ii.getImage();
+        if(!lock){
+            ImageIcon ii = new ImageIcon(this.getClass().getResource(pic));
+            image = ii.getImage();
+        }
         if(health <= 0){
             new SwingWorker() {
                 @Override protected Object doInBackground() throws Exception {
@@ -130,6 +132,11 @@ public class enemy {
     
     public void hit(int damage){
         health -= damage;
+        if(dx > 0){
+            setImage("enemy_Sprites/goblin/gethitGobR.gif");
+        }else{
+            setImage("enemy_Sprites/goblin/gethitGobL.gif");
+        }
         if(health <= 0){
             if(dx > 0){
                 setImage("enemy_Sprites/goblin/deathGobR.gif");
@@ -140,6 +147,7 @@ public class enemy {
         }
         if(!dead){
             knockback = true;
+            lock = true;
             new SwingWorker() {
                 @Override protected Object doInBackground() throws Exception {
                     Thread.sleep(500);
@@ -147,6 +155,7 @@ public class enemy {
                 }
                 @Override protected void done() {
                     knockback = false;
+                    lock = false;
                 }
             }.execute();
         }
@@ -158,7 +167,7 @@ public class enemy {
         }else{
             setImage("enemy_Sprites/goblin/attackGobL.gif");
         }
-        attacking = true;
+        lock = true;
         knockback = true;
         new SwingWorker() {
             @Override protected Object doInBackground() throws Exception {
@@ -167,7 +176,7 @@ public class enemy {
             }
             @Override protected void done() {
                 knockback = false;
-                attacking = false;
+                lock = false;
             }
         }.execute();
     }
